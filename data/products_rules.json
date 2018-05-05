@@ -1,0 +1,38 @@
+{
+    "mini": {
+        "ratio": [1,1],
+        "width": 200
+    },
+    "small": {
+        "ratio": [1,1],
+        "width": 500
+    },
+    "email": {
+        "ratio": [1,1],
+        "width": 200
+    },
+    "normal": {
+        "ratio": [1,1],
+        "width": 1000
+    },
+    "product": {
+        "ratio": [1,1],
+        "width": 810
+    },
+    "product_retina": {
+        "ratio": [1,1],
+        "width": 1620
+    },
+    "product_zoom": {
+        "ratio": [1,1],
+        "width": 2560
+    },
+    "plp": {
+        "ratio": [1,1],
+        "width": 370
+    },
+    "plp_retina": {
+        "ratio": [1,1],
+        "width": 740
+    }
+}
