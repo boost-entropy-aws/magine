@@ -11,8 +11,8 @@ const BUCKET = process.env.BUCKET;
 
 // take the image input URL from s3, along with certain rules from the path of the s3 location to determine the correct type of resizing and optimization
 // all product and story images come from the /media/ path.
-const route = (event, context, callback) => {
-    console.log(event);
+exports.route = (event, context, callback) => {
+    console.log(JSON.stringify(event));
     callback(null, 'OK');
 }
 

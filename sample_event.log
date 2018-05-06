@@ -1,0 +1,38 @@
+{
+  "Records": [
+    {
+      "awsRegion": "us-east-1",
+      "eventName": "ObjectCreated:Put",
+      "eventSource": "aws:s3",
+      "eventTime": "2018-05-06T00:07:48.646Z",
+      "eventVersion": "2.0",
+      "requestParameters": {
+        "sourceIPAddress": "73.33.105.203"
+      },
+      "responseElements": {
+        "x-amz-id-2": "3FWq0BXMhOC6y00V9Mu1F92lTme+GPsejROqSMdbS9iXq6IUL/6CxL/fpulUlevQqYAVMgOlZD4=",
+        "x-amz-request-id": "3D401D85F284E8EE"
+      },
+      "s3": {
+        "bucket": {
+          "arn": "arn:aws:s3:::magine-test",
+          "name": "magine-test",
+          "ownerIdentity": {
+            "principalId": "A4ES4CYBSDV9N"
+          }
+        },
+        "configurationId": "14d343ae-5dca-4d8c-85a2-caacb2bcc828",
+        "object": {
+          "eTag": "9c7b86b3468f1058d222eb5af867454d",
+          "key": "media/FINA_Ibiscus.jpg",
+          "sequencer": "005AEE4753D7203F6C",
+          "size": 692488
+        },
+        "s3SchemaVersion": "1.0"
+      },
+      "userIdentity": {
+        "principalId": "A4ES4CYBSDV9N"
+      }
+    }
+  ]
+}
