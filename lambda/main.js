@@ -29,7 +29,7 @@ const getImage = async (imagePath, callback) => {
     // get image from s3 via pipe in a promise
   const params = {
     Bucket: BUCKET,
-    Key: imagePath // 'media/<type>/<folder>/<imageName>.<imageExt>'
+    Key: imagePath // 'media/<type>/<folder>/<imageKey>/<imageType>/<imageName>.<imageExt>'
   };
 
   const response = await s3.getObject(params, (err) => {
@@ -54,51 +54,38 @@ const setImageRules = (args, callback) => {
   }
   const rules = require(`../data/${ruleType}_rules.json`);
   console.log(rules);
-  return imageWork(rules, {contentType: args.contentType, imageData: args.data}, callback)
+  return imageWork(rules, {contentType: args.contentType, imageData: args.data, imagePath: args.imagePath}, callback)
 }
 
 const imageWork = (rules, args, callback) => {
   // args will be an object with the data type of image, the Buffer with the image data, the original image path
-  // const pipeline = new stream.PassThrough();
-  // pipeline.setMaxListeners(0);
-  // pipeline.end(args.imageData);
   Object.entries(rules).forEach(([imageKey, imageVal]) => {
-    // console.log(pipeline._readableState.pipes !== null ? pipeline._readableState.pipes.getMaxListeners() : "Hi");
-    const magickArgs = [
-      args.imageData,
-      '-filter',
-      'Triangle',
-      '-define',
-      'filter:support=2',
-      '-thumbnail',
-      imageVal.width,
-      '-unsharp 0.25x0.25+8+0.065',
-      '-dither None',
-      '-posterize 136',
-      '-quality 82',
-      '-define jpeg:fancy-upsampling=off',
-      '-define png:compression-filter=5',
-      '-define png:compression-level=9',
-      '-define png:compression-strategy=1',
-      '-define png:exclude-chunk=all',
-      '-interlace none',
-      '-colorspace sRGB',
-      '-strip',
-      '-'
-    ];
-    // GM CONVERT CURRENTLY DOES NOT WORK. NEED TO RESEARCH WHY
-    // pipeline.pipe(process.stdout)
-    // gm.convert(magickArgs, (err, stdout, stderr) => {
-    //   if (err) {
-    //     console.log(err)
-    //     callback(err)
-    //   }
-    //   console.log(stdout);
-    //   console.log(stderr);
-    // });
+    gm(args.imageData)
+    .command('convert')
+    .in('-filter', 'Triangle', '-define', 'filter:support=2', '-thumbnail', `${imageVal.width}`, '-unsharp', '0.25x0.25+8+0.065', '-dither', 'None', '-posterize', '136', '-quality', '82', '-define', 'jpeg:fancy-upsampling=off', '-define', 'png:compression-filter=5', '-define', 'png:compression-level=9', '-define', 'png:compression-strategy=1', '-define', 'png:exclude-chunk=all', '-interlace', 'none', '-colorspace', 'sRGB', '-strip')
+    .toBuffer( (err, buffer) => {
+      if ( err ) {
+        console.log(`error: ${err}`);
+        callback(err)
+      }
+      setImage({imBuffer: buffer, newImagePath: /original/.test(args.imagePath) ? args.imagePath.replace(/original/, imageKey) : args.imagePath}, callback)
+    })
   })
 };
 
-const setImage = (args, callback) => {
+const setImage = async (args, callback) => {
   // args will be an object with the returned imagemagick buffer, new image path ( fully qualified with directory )
+  const params = {
+    Body: args.imBuffer,
+    Bucket: BUCKET,
+    Key: args.newImagePath
+  };
+
+  const request = await s3.putObject(params, (err) => {
+    if (err) {
+      callback(err);
+    }
+  }).promise()
+
+  return callback(null, request);
 };
