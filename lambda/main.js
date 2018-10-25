@@ -14,7 +14,7 @@ exports.route = (event, context, callback) => {
   console.log(JSON.stringify(event));
   if (!event.hasOwnProperty('Records') && !event.hasOwnProperty('pathParameters')) {
     return callback('not a valid request');
-  } 
+  }
   if (event.hasOwnProperty('Records') && event.Records[0].s3.object.key.split('/').includes('original')) {
     return getImage(`${event.Records[0].s3.object.key}`, callback);
   } else if (event.hasOwnProperty('Records')) {
@@ -71,6 +71,15 @@ const imageWork = (rules, args, callback) => {
       setImage({imBuffer: buffer, newImagePath: /original/.test(args.imagePath) ? args.imagePath.replace(/original/, imageKey) : args.imagePath}, callback)
     })
   })
+};
+
+const identifyFormat = (imageData) => {
+  // Identify format via identify command
+  return gm(imageData).command('identify');
+};
+
+const convertFormat = () => {
+  // Should this be something that is an argument passed into imageWork? This is a placeholder commit for research.
 };
 
 const setImage = async (args, callback) => {
