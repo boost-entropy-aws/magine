@@ -21,11 +21,14 @@ RUN wget https://imagemagick.org/download/ImageMagick.tar.gz
 # Install image dependencies
 RUN tar -xzvf libwebp-1.0.1.tar.gz
 RUN tar -xzvf ImageMagick.tar.gz
+# Unpack dependencies
 RUN cd libwebp-1.0.1 \
     && ./configure \
     && make \
     && make install
-RUN cd ImageMagick-7.0.8-14 \
+
+ARG imagemagickVersion
+RUN cd ImageMagick-$imagemagickVersion \
     && ./configure --with-webp \
     && make \
     && make install
