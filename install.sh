@@ -1,5 +1,4 @@
 #!/bin/bash
-echo $(pwd)
 curl https://imagemagick.org/download/ImageMagick.tar.gz -o `pwd`/ImageMagick.tar.gz
 tar -xzvf ImageMagick.tar.gz
 rm ImageMagick.tar.gz
@@ -16,17 +15,15 @@ docker run $dockerimage
 
 dockercontainer=$(docker container ls -alq)
 
-docker cp $dockercontainer:/usr/local/bin/exodus-magick ./exodus-magick
-docker cp $dockercontainer:/usr/local/bin/exodus-compare ./exodus-compare
-docker cp $dockercontainer:/usr/local/bin/exodus-composite ./exodus-composite
-docker cp $dockercontainer:/usr/local/bin/exodus-conjure ./exodus-conjure
-docker cp $dockercontainer:/usr/local/bin/exodus-convert ./exodus-convert
-docker cp $dockercontainer:/usr/local/bin/exodus-display ./exodus-display
-docker cp $dockercontainer:/usr/local/bin/exodus-identify ./exodus-identify
-docker cp $dockercontainer:/usr/local/bin/exodus-import ./exodus-import
-docker cp $dockercontainer:/usr/local/bin/exodus-import ./exodus-import
-docker cp $dockercontainer:/usr/local/bin/exodus-mogrify ./exodus-mogrify
-docker cp $dockercontainer:/usr/local/bin/exodus-montage ./exodus-montage
-docker cp $dockercontainer:/usr/local/bin/exodus-stream ./exodus-stream
-docker cp $dockercontainer:/usr/local/bin/exodus-cwebp ./exodus-cwebp
-docker cp $dockercontainer:/usr/local/bin/exodus-dwebp ./exodus-dwebp
+# Only moving over a subset of binaries to keep under the 50MB limit.
+docker cp $dockercontainer:/usr/local/bin/exodus-magick ./lambda/bin/magick
+docker cp $dockercontainer:/usr/local/bin/exodus-convert ./lambda/bin/convert
+docker cp $dockercontainer:/usr/local/bin/exodus-identify ./lambda/bin/identify
+docker cp $dockercontainer:/usr/local/bin/exodus-cwebp ./lambda/bin/cwebp
+docker cp $dockercontainer:/usr/local/bin/exodus-dwebp ./lambda/bin/dwebp
+
+# Zip up the folder
+LAMBDA_CODE=magine-$(date +%Y%m%d-%H%M)
+zip -r9 $LAMBDA_CODE.zip ./lambda
+aws s3 cp $LAMBDA_CODE.zip s3://$BUCKET/$LAMBDA_CODE.zip
+aws lambda update-function-code --function-name $LAMBDA_NAME --s3-bucket $BUCKET --s3-key $LAMBDA_CODE.zip --publish
