@@ -1,6 +1,7 @@
 const stream = require('stream')
 const AWS = require('aws-sdk');
-const gm = require('gm').subClass({imageMagick: true});
+const path = require('path');
+const gm = require('gm').subClass({appPath: `${path.resolve(__dirname, 'bin', 'exodus', 'bin')}`, imageMagick: true});
 const s3 = new AWS.S3({
   signatureVersion: 'v4',
 });
@@ -52,12 +53,14 @@ const setImageRules = (args, callback) => {
   if ( ruleType === null ) {
     return callback('unable to find rule matching image category');
   }
-  const rules = require(`../data/${ruleType}_rules.json`);
+  const rules = require(`./data/${ruleType}_rules.json`);
   console.log(rules);
   return imageWork(rules, {contentType: args.contentType, imageData: args.data, imagePath: args.imagePath}, callback)
 }
 
 const imageWork = (rules, args, callback) => {
+  console.log('imageWork');
+  console.log(args);
   // args will be an object with the data type of image, the Buffer with the image data, the original image path
   Object.entries(rules).forEach(([imageKey, imageVal]) => {
     gm(args.imageData)

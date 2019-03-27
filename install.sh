@@ -16,11 +16,12 @@ docker run $dockerimage
 dockercontainer=$(docker container ls -alq)
 
 # Only moving over a subset of binaries to keep under the 50MB limit.
-docker cp $dockercontainer:/usr/local/bin/exodus-magick ./lambda/bin/magick
-docker cp $dockercontainer:/usr/local/bin/exodus-convert ./lambda/bin/convert
-docker cp $dockercontainer:/usr/local/bin/exodus-identify ./lambda/bin/identify
-docker cp $dockercontainer:/usr/local/bin/exodus-cwebp ./lambda/bin/cwebp
-docker cp $dockercontainer:/usr/local/bin/exodus-dwebp ./lambda/bin/dwebp
+docker cp $dockercontainer:/usr/local/bin/exodus-magick.tgz ./lambda/bin/magick.tgz
+
+echo $(ls ./lambda/bin)
+# Unzip the tar files
+tar -xzvf ./lambda/bin/magick.tgz -C ./lambda/bin/
+rm ./lambda/bin/magick.tgz
 
 # Zip up the folder
 LAMBDA_CODE=magine-$(date +%Y%m%d-%H%M)
