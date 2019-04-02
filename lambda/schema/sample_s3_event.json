@@ -23,10 +23,10 @@
         },
         "configurationId": "14d343ae-5dca-4d8c-85a2-caacb2bcc828",
         "object": {
-          "eTag": "9c7b86b3468f1058d222eb5af867454d",
-          "key": "media/FINA_Ibiscus.jpg",
+          "eTag": "ff0f6f3659647d8c57bae2b51bd4f7a7",
+          "key": "media/cmsimage/original/abstract-art-background-1124092.jpg",
           "sequencer": "005AEE4753D7203F6C",
-          "size": 692488
+          "size": 3
         },
         "s3SchemaVersion": "1.0"
       },

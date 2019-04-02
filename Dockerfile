@@ -45,20 +45,5 @@ RUN python get-pip.py
 RUN pip install --user exodus-bundler
 ENV PATH="~/.local/bin/:${PATH}"
 
-# Create packages of imagemagick binaries
-RUN exodus -v /usr/local/bin/magick -o /usr/local/bin/exodus-magick
-RUN exodus -v /usr/local/bin/animate -o /usr/local/bin/exodus-animate
-RUN exodus -v /usr/local/bin/compare -o /usr/local/bin/exodus-compare
-RUN exodus -v /usr/local/bin/composite -o /usr/local/bin/exodus-composite
-RUN exodus -v /usr/local/bin/conjure -o /usr/local/bin/exodus-conjure
-RUN exodus -v /usr/local/bin/convert -o /usr/local/bin/exodus-convert
-RUN exodus -v /usr/local/bin/display -o /usr/local/bin/exodus-display
-RUN exodus -v /usr/local/bin/identify -o /usr/local/bin/exodus-identify
-RUN exodus -v /usr/local/bin/import -o /usr/local/bin/exodus-import
-RUN exodus -v /usr/local/bin/mogrify -o /usr/local/bin/exodus-mogrify
-RUN exodus -v /usr/local/bin/montage -o /usr/local/bin/exodus-montage
-RUN exodus -v /usr/local/bin/stream -o /usr/local/bin/exodus-stream
-
-# Create packages of libwebp binaries
-RUN exodus -v /usr/local/bin/cwebp -o /usr/local/bin/exodus-cwebp
-RUN exodus -v /usr/local/bin/dwebp -o /usr/local/bin/exodus-dwebp
+# Create packages of imagemagick binary
+RUN exodus -t /usr/local/bin/magick -o /usr/local/bin/exodus-magick.tgz
