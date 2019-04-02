@@ -14,11 +14,13 @@ exports.get = async (event) => {
 
 exports.put = async (image, imageKey, location) => {
   console.log(image, imageKey, location);
-  const newImage = await writeFile(path.resolve(__dirname, '..', '..', imageKey, location), image).then(data => data).catch(err => console.log(err));
-  return newImage;
+  // imagemagick already created the images in /tmp. No need to proceed.
+  return image;
 };
 
-exports.dir = async (descriptor) => {
+exports.dir = async (...descriptor) => {
   console.log('imageVehicle.dir: ', descriptor);
-  const newDir = await mkdir(descriptor, { recursive: true }).then(data => descriptor).catch(err => console.log(err));
+  const tmpPath = path.resolve(__dirname, '..', ...descriptor);
+  const newDir = await mkdir(tmpPath, { recursive: true }).then(data => tmpPath).catch(err => console.log(err));
+  return newDir;
 };

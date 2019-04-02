@@ -17,7 +17,7 @@ exports.get = async (event) => {
     Bucket: BUCKET,
     Key: location
   }
-  const image = s3.getObject(params, err => {
+  const image = await s3.getObject(params, err => {
     if (err) {
       return err;
     }
@@ -32,7 +32,7 @@ exports.put = async (image, imageKey, location) => {
     Bucket: BUCKET,
     Key: location
   };
-  const newImage = s3.upload(params, err => {
+  const newImage = await s3.upload(params, err => {
     if (err) {
       return err;
     }
@@ -40,7 +40,12 @@ exports.put = async (image, imageKey, location) => {
   return newImage;
 };
 
-exports.dir = async (descriptor) => {
-  console.log('imageVehicle.dir: ', descriptor);
-  const newDir = await mkdir(descriptor, { recursive: true }).then(data => descriptor).catch(err => console.log(err));
+exports.dir = async (...descriptor) => {
+  console.log('imageVehicle.dir: ', ...descriptor);
+  const tmpPath = path.resolve('/', ...descriptor);
+  if ( tmpPath !== '/tmp' ) {
+    const newDir = await mkdir(tmpPath, { recursive: true }).then(data => tmpPath).catch(err => console.log(err));
+    return newDir;
+  }
+  return tmpPath;
 };

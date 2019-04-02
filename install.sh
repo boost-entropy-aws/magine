@@ -23,6 +23,9 @@ echo $(ls ./lambda/bin)
 tar -xzvf ./lambda/bin/magick.tgz -C ./lambda/bin/
 rm ./lambda/bin/magick.tgz
 
+# Install packages
+cd ./lambda && npm install && cd ..
+
 # Zip up the folder
 LAMBDA_CODE=magine-$(date +%Y%m%d-%H%M)
 zip -r9 $LAMBDA_CODE.zip ./lambda
