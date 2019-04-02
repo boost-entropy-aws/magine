@@ -1,6 +1,6 @@
 {
   "name": "magine",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "An image service for managing crops and optimizing sizes",
   "main": "lambda/main.js",
   "scripts": {
@@ -10,7 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "aws-sdk": "^2.229.1",
-    "gm": "^1.23.1"
+    "ajv": "^6.10.0"
   },
   "devDependencies": {
     "eslint": "^5.9.0",
