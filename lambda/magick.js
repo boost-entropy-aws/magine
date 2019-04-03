@@ -13,26 +13,29 @@ exports.default = async (event, gmOptions, env) => {
   const imageVehicle = require(path.resolve(__dirname, 'vehicles', env));
   const { location, filename, file } = await imageVehicle.get(event);
   // this creates the /tmp directory
-  console.log('hello');
-  const newDir = await imageVehicle.dir(path.resolve(__dirname, 'tmp'));
+  console.log(location, filename, file);
+  const newDir = await imageVehicle.dir('tmp');
   // write a temporary file
-  const tempOriginal = await writeFile(path.resolve(__dirname, 'tmp', filename), file).then(data => path.resolve(__dirname, 'tmp', filename));
+  const tempOriginal = await writeFile(path.resolve(newDir, filename), file).then(data => path.resolve(newDir, filename));
   // get data options for images based on path
   const rules = imageOptions.paths(location);
 
   // resize each image =>
   const resizedImages = Object.entries(rules).map( async ([imageKey, imageVal]) => {
     const magickArgs = ['-filter', 'Triangle', '-define', 'filter:support=2', '-thumbnail', `${imageVal.width}`, '-unsharp', '0.25x0.25+8+0.065', '-dither', 'None', '-posterize', '136', '-quality', '82', '-define', 'jpeg:fancy-upsampling=off', '-define', 'png:compression-filter=5', '-define', 'png:compression-level=9', '-define', 'png:compression-strategy=1', '-define', 'png:exclude-chunk=all', '-interlace', 'none', '-colorspace', 'sRGB', '-strip'];
-    const tmpResizedDescriptor = await imageVehicle.dir(path.resolve(__dirname, 'tmp', imageKey));
+    const tmpResizedDescriptor = await imageVehicle.dir('tmp', imageKey);
     // this sets the location and descriptor of the resized file
-    const resizedPath = path.resolve(__dirname, 'tmp', imageKey, filename);
+    const resizedPath = path.resolve(tmpResizedDescriptor, filename);
     // TODO: check that this works, as I am passing in the temp paths.
     const argsArray = [tempOriginal, ...magickArgs, resizedPath];
     const { appPath = 'magick' } = gmOptions; 
+    console.log(argsArray);
+    console.log(tmpResizedDescriptor);
     const magickProcess = child_process.spawnSync(appPath, argsArray);
-    const resizedImage = await readFile(path.resolve(__dirname, 'tmp', imageKey, filename)).then(data => data);
+    console.log(path.resolve(tmpResizedDescriptor, filename));
+    const resizedImage = await readFile(path.resolve(tmpResizedDescriptor, filename)).then(data => data);
     // this below will perform I/O in non local formats.
-    const returnedImages = await imageVehicle.put(resizedImage, imageKey, location);
+    const returnedImages = await imageVehicle.put(resizedImage, tmpResizedDescriptor, location);
     return resizedImage;
   });
   // Perform imagemagick on the resized images to convert to different format (JPG -> WEBP)
