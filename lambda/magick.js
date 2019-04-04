@@ -19,7 +19,7 @@ exports.default = async (event, gmOptions, env) => {
   const tempOriginal = await writeFile(path.resolve(newDir, filename), file).then(data => path.resolve(newDir, filename));
   // get data options for images based on path
   const rules = imageOptions.paths(location);
-
+  const { appPath = 'magick' } = gmOptions;
   // resize each image =>
   const resizedImages = Object.entries(rules).map( async ([imageKey, imageVal]) => {
     const magickArgs = ['-filter', 'Triangle', '-define', 'filter:support=2', '-thumbnail', `${imageVal.width}`, '-unsharp', '0.25x0.25+8+0.065', '-dither', 'None', '-posterize', '136', '-quality', '82', '-define', 'jpeg:fancy-upsampling=off', '-define', 'png:compression-filter=5', '-define', 'png:compression-level=9', '-define', 'png:compression-strategy=1', '-define', 'png:exclude-chunk=all', '-interlace', 'none', '-colorspace', 'sRGB', '-strip'];
@@ -28,11 +28,9 @@ exports.default = async (event, gmOptions, env) => {
     const resizedPath = path.resolve(tmpResizedDescriptor, filename);
     // TODO: check that this works, as I am passing in the temp paths.
     const argsArray = [tempOriginal, ...magickArgs, resizedPath];
-    const { appPath = 'magick' } = gmOptions; 
-    console.log(argsArray);
     console.log(tmpResizedDescriptor);
-    const magickProcess = child_process.spawnSync(appPath, argsArray);
-    console.log(path.resolve(tmpResizedDescriptor, filename));
+    const magickProcess = child_process.spawnSync(`${appPath}/magick`, argsArray);
+    console.log(magickProcess.stdout.toString(), magickProcess.stderr.toString());
     const resizedImage = await readFile(path.resolve(tmpResizedDescriptor, filename)).then(data => data);
     // this below will perform I/O in non local formats.
     const returnedImages = await imageVehicle.put(resizedImage, tmpResizedDescriptor, location);
