@@ -2,6 +2,8 @@ FROM amazonlinux:latest
 
 MAINTAINER Jonathan Kempf <kempfjj@protonmail.com>
 
+WORKDIR /
+
 RUN yum -y install tar \
     zip \
     gzip \
