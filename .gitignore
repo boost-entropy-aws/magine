@@ -65,3 +65,6 @@ package-lock.json
 
 # Exodus 
 lambda/bin/exodus/*
+
+# ImageMagick
+ImageMagick.tar.gz
