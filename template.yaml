@@ -1,0 +1,17 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  magine
+
+  An image service for managing crops and optimizing sizes
+
+Resources:
+  MagineFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: lambda/
+      Handler: main.route
+      Runtime: nodejs8.10
+      Environment:
+        Variables:
+          BUCKET: magine-test

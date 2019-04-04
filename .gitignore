@@ -57,3 +57,6 @@ typings/
 # dotenv environment variables file
 .env
 
+# AWS SAM builds
+.aws-sam
+
