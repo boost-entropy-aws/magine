@@ -42,6 +42,9 @@ typings/
 # Optional npm cache directory
 .npm
 
+# Package lock file
+package-lock.json
+
 # Optional eslint cache
 .eslintcache
 
@@ -60,3 +63,5 @@ typings/
 # AWS SAM builds
 .aws-sam
 
+# Exodus 
+lambda/bin/exodus/*
