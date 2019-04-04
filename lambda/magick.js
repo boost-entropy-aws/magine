@@ -30,7 +30,7 @@ exports.default = async (event, gmOptions, env) => {
     const argsArray = [tempOriginal, ...magickArgs, resizedPath];
     console.log(tmpResizedDescriptor);
     const magickProcess = child_process.spawnSync(`${appPath}/magick`, argsArray);
-    console.log(path.resolve(tmpResizedDescriptor, filename));
+    console.log(magickProcess.stdout.toString(), magickProcess.stderr.toString());
     const resizedImage = await readFile(path.resolve(tmpResizedDescriptor, filename)).then(data => data);
     // this below will perform I/O in non local formats.
     const returnedImages = await imageVehicle.put(resizedImage, tmpResizedDescriptor, location);
