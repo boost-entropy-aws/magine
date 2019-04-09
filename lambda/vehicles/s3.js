@@ -1,7 +1,5 @@
 const AWS = require('aws-sdk');
-const s3 = new AWS.S3({
-  signatureVersion: 'v4',
-});
+s
 const BUCKET = process.env.BUCKET;
 const util = require('util');
 const fs = require('fs');
@@ -21,8 +19,8 @@ exports.get = async (event) => {
     if (err) {
       return err;
     }
-  }).promise();
-  return { location, filename, file: image };
+  });
+  return { location, filename, file: image.Body };
 };
 
 exports.put = async (image, imageKey, location) => {
@@ -36,7 +34,7 @@ exports.put = async (image, imageKey, location) => {
     if (err) {
       return err;
     }
-  }).promise();
+  });
   return newImage;
 };
 

@@ -2,6 +2,7 @@ const path = require('path');
 const child_process = require('child_process');
 const fs = require('fs');
 const util = require('util');
+const stat = util.promisify(fs.stat);
 const writeFile = util.promisify(fs.writeFile);
 const readFile = util.promisify(fs.readFile);
 
@@ -16,7 +17,16 @@ exports.default = async (event, gmOptions, env) => {
   console.log(location, filename, file);
   const newDir = await imageVehicle.dir('tmp');
   // write a temporary file
-  const tempOriginal = await writeFile(path.resolve(newDir, filename), file).then(data => path.resolve(newDir, filename));
+  const tempOriginal = await writeFile(path.resolve(newDir, filename), file).then(data => path.resolve(newDir, filename)).catch(err => console.log('err: ', err));
+  fs.access(tempOriginal, fs.constants.F_OK | fs.constants.R_OK, (err) => {
+    if (err) {
+      console.error(`${tempOriginal} ${err.code === 'ENOENT' ? 'does not exist' : 'is not readable'}`);
+    } else {
+      console.log(`${tempOriginal} exists, and it is readable`);
+    }
+  })
+  const tempStats = await stat(tempOriginal).then(data => data).catch(err => console.log('stats err: ', err));
+  console.log(tempStats, tempOriginal);
   // get data options for images based on path
   const rules = imageOptions.paths(location);
   const { appPath = 'magick' } = gmOptions;
