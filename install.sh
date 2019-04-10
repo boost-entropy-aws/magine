@@ -1,13 +1,6 @@
 #!/bin/bash
-curl https://imagemagick.org/download/ImageMagick.tar.gz -o `pwd`/ImageMagick.tar.gz
-tar -xzvf ImageMagick.tar.gz
-rm ImageMagick.tar.gz
-IMAGEMAGICK_VERSION=$(find `pwd` -name ImageMagick* | sed -n 's/.*\/ImageMagick-\(.*\)/\1/p')
-rm -rf ImageMagick-$IMAGEMAGICK_VERSION
 
-echo $IMAGEMAGICK_VERSION
-
-docker build --build-arg imagemagickVersion=$IMAGEMAGICK_VERSION -t 'maisonette-magine:latest' --force-rm .
+docker build -t 'maisonette-magine:latest' --force-rm .
 
 dockerimage=$(docker images -q -f=reference='maisonette-magine')
 

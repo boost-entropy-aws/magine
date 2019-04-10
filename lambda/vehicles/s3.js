@@ -17,27 +17,49 @@ exports.get = async (event) => {
     Bucket: BUCKET,
     Key: location
   }
-  const image = await s3.getObject(params, err => {
-    if (err) {
-      return err;
-    }
-  }).promise();
-  return { location, filename, file: image };
+  const image = (params) => {
+    return new Promise((resolve, reject) => {
+      s3.getObject(params, (err, data) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(data.Body);
+        }
+      })
+    })
+  }
+
+  const file = await image(params);
+  return { location, filename, file };
 };
 
 exports.put = async (image, imageKey, location) => {
-  console.log(image, imageKey, location);
+  console.log('put image', image);
+  console.log('imageKey', imageKey);
+  console.log('location', location);
+  const newLocation = location.replace(/original/, imageKey.split('/')[2]);
+  // need to merge the imageKey and location to get the right key for S3
+  // imageKey /tmp/icon_about
+  // location media/cmsimage/original/abstract...jpg
   const params = {
     Body: image,
     Bucket: BUCKET,
-    Key: location
+    Key: newLocation
   };
-  const newImage = await s3.upload(params, err => {
-    if (err) {
-      return err;
-    }
-  }).promise();
-  return newImage;
+  const newImage = (params) => {
+    return new Promise((resolve, reject) => {
+      s3.upload(params, (err, data) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(data);
+        }
+      })
+    })
+  };
+
+  const uploaded = await newImage(params);
+  return uploaded;
 };
 
 exports.dir = async (...descriptor) => {
