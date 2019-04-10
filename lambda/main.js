@@ -7,10 +7,10 @@ exports.route = (event, context, callback) => {
   let gmOpts = {};
   let environment = 'default';
   if (event.body) {
-    gmOpts = Object.assign({}, gmOpts, { appPath: `${path.resolve(__dirname, 'bin', 'exodus', 'bin')}`, imageMagick: true });
+    gmOpts = Object.assign({}, gmOpts, { appPath: `${path.resolve(__dirname, 'bin', 'exodus', 'bin', 'magick')}`, imageMagick: true });
     environment = 'api';
   } else if (event.Records) {
-    gmOpts = Object.assign({}, gmOpts, { appPath: `${path.resolve(__dirname, 'bin', 'exodus', 'bin')}`, imageMagick: true });
+    gmOpts = Object.assign({}, gmOpts, { appPath: `${path.resolve(__dirname, 'bin', 'exodus', 'bin', 'magick')}`, imageMagick: true });
     environment = 's3';
   } else if (event.key) {
     gmOpts = Object.assign({}, gmOpts, { imageMagick: true });

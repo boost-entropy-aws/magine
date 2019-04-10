@@ -23,7 +23,7 @@ exports.get = async (event) => {
         if (err) {
           reject(err);
         } else {
-          resolve(data);
+          resolve(data.Body);
         }
       })
     })
@@ -34,10 +34,17 @@ exports.get = async (event) => {
 };
 
 exports.put = async (image, imageKey, location) => {
+  console.log('put image', image);
+  console.log('imageKey', imageKey);
+  console.log('location', location);
+  const newLocation = location.replace(/original/, imageKey.split('/')[2]);
+  // need to merge the imageKey and location to get the right key for S3
+  // imageKey /tmp/icon_about
+  // location media/cmsimage/original/abstract...jpg
   const params = {
     Body: image,
     Bucket: BUCKET,
-    Key: location
+    Key: newLocation
   };
   const newImage = (params) => {
     return new Promise((resolve, reject) => {

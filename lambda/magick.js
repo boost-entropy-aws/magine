@@ -17,6 +17,7 @@ exports.default = async (event, gmOptions, env) => {
   const newDir = await imageVehicle.dir('tmp');
   // write a temporary file
   const tempOriginal = await writeFile(path.resolve(newDir, filename), file).then(data => path.resolve(newDir, filename));
+  fs.stat(tempOriginal, (err, stats) => !err ? console.log(stats) : console.log(err));
   // get data options for images based on path
   const rules = imageOptions.paths(location);
   const { appPath = 'magick' } = gmOptions;
@@ -26,14 +27,15 @@ exports.default = async (event, gmOptions, env) => {
     const tmpResizedDescriptor = await imageVehicle.dir('tmp', imageKey);
     // this sets the location and descriptor of the resized file
     const resizedPath = path.resolve(tmpResizedDescriptor, filename);
+    console.log('resizedPath ', resizedPath);
     // TODO: check that this works, as I am passing in the temp paths.
     const argsArray = [tempOriginal, ...magickArgs, resizedPath];
-    console.log(tmpResizedDescriptor);
-    const magickProcess = child_process.spawnSync(`${appPath}/magick`, argsArray);
-    console.log(magickProcess.stdout.toString(), magickProcess.stderr.toString());
-    const resizedImage = await readFile(path.resolve(tmpResizedDescriptor, filename)).then(data => data);
+    const magickProcess = child_process.spawnSync(appPath, argsArray);
+    const resizedImage = await readFile(resizedPath).then(data => data);
+    console.log('resizedImage ', resizedImage);
     // this below will perform I/O in non local formats.
-    const returnedImages = await imageVehicle.put(resizedImage, tmpResizedDescriptor, location);
+    const returnedImage = await imageVehicle.put(resizedImage, tmpResizedDescriptor, location);
+    console.log(returnedImage);
     return resizedImage;
   });
   // Perform imagemagick on the resized images to convert to different format (JPG -> WEBP)
