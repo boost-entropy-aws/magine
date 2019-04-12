@@ -1,0 +1,38 @@
+{
+  "small": {
+    "ratio": [],
+    "width": 450
+  },
+  "small-retina": {
+    "ratio": [],
+    "width": 900
+  },
+  "small-super-retina": {
+    "ratio": [],
+    "width": 1350
+  },
+  "medium": {
+    "ratio": [],
+    "width": 675
+  },
+  "medium-retina": {
+    "ratio": [],
+    "width": 1350
+  },
+  "medium-super-retina": {
+    "ratio": [],
+    "width": 2025
+  },
+  "large": {
+    "ratio": [],
+    "width": 900
+  },
+  "large-retina": {
+    "ratio": [],
+    "width": 1800
+  },
+  "large-super-retina": {
+    "ratio": [],
+    "width": 2700
+  }
+}

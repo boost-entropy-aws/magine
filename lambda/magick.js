@@ -35,14 +35,16 @@ exports.default = async (event, gmOptions, env) => {
     console.log('resizedImage ', resizedImage);
     // this below will perform I/O in non local formats.
     const returnedImage = await imageVehicle.put(resizedImage, tmpResizedDescriptor, location);
-    console.log(returnedImage);
-    return resizedImage;
+    console.log(returnedImage.Location);
+    return { data: resizedImage, uri: returnedImage.Location };
   });
   // Perform imagemagick on the resized images to convert to different format (JPG -> WEBP)
-  resizedImages.map((image) => {
+  const formats = resizedImages.map((image) => {
     console.log(image);
     // need the file extension
     // if png, then test the alpha channel usage and if no usage, then use the jpg format
     // pass the new file extension to imageOptions.formats()
   });
+
+  return formats;
 };
