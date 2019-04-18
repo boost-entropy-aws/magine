@@ -2,61 +2,65 @@ const AWS = require('aws-sdk');
 const s3 = new AWS.S3({
   signatureVersion: 'v4',
 });
-const BUCKET = process.env.BUCKET;
+const { BUCKET } = process.env;
 const util = require('util');
 const fs = require('fs');
 const path = require('path');
-const readFile = util.promisify(fs.readFile);
-const writeFile = util.promisify(fs.writeFile);
+
 const mkdir = util.promisify(fs.mkdir);
 
 exports.get = async (event) => {
-  const location = event.Records[0].s3.object.key;
-  const filename = location.split('/').pop();
+  let error = null;
+  const fullLocation = event.Records[0].s3.object.key;
+  if (fullLocation.split('/').length !== 5) {
+    error = 'S3 path is incorrect, should match: storageKey/S3Trigger/processingRule/UUID/imagename';
+  }
+  const [storageKey, s3Trigger, processingRule, uuid, imageName] = fullLocation.split('/');
   const params = {
     Bucket: BUCKET,
-    Key: location
-  }
-  const image = (params) => {
-    return new Promise((resolve, reject) => {
-      s3.getObject(params, (err, data) => {
-        if (err) {
-          reject(err);
-        } else {
-          resolve(data.Body);
-        }
-      })
-    })
-  }
+    Key: fullLocation
+  };
+  const image = s3Params => new Promise((resolve, reject) => {
+    s3.getObject(s3Params, (err, data) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(data.Body);
+      }
+    });
+  });
 
   const file = await image(params);
-  return { location, filename, file };
+  return {
+    error,
+    fullLocation,
+    storageKey,
+    s3Trigger,
+    processingRule,
+    uuid,
+    imageName,
+    file
+  };
 };
 
-exports.put = async (image, imageKey, location) => {
-  console.log('put image', image);
-  console.log('imageKey', imageKey);
-  console.log('location', location);
-  const newLocation = location.replace(/original/, imageKey.split('/')[2]);
-  // need to merge the imageKey and location to get the right key for S3
-  // imageKey /tmp/icon_about
-  // location media/cmsimage/original/abstract...jpg
+exports.put = async (image, ...imagePaths) => {
+  console.log('imagePaths: ', imagePaths);
+  const [storageKey, uuid, imageName, imageMod] = imagePaths;
+  const newS3Key = `${storageKey}/${uuid}/${imageName.split('.')[0]}-${imageMod}.${imageName.split('.')[1]}`;
   const params = {
     Body: image,
     Bucket: BUCKET,
-    Key: newLocation
+    Key: newS3Key
   };
-  const newImage = (params) => {
-    return new Promise((resolve, reject) => {
-      s3.upload(params, (err, data) => {
-        if (err) {
-          reject(err);
-        } else {
-          resolve(data);
-        }
-      })
-    })
-  };
+  const newImage = s3Params => new Promise((resolve, reject) => {
+    s3.upload(s3Params, (err, data) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(data);
+      }
+    });
+  });
 
   const uploaded = await newImage(params);
   return uploaded;
@@ -65,7 +69,7 @@ exports.put = async (image, imageKey, location) => {
 exports.dir = async (...descriptor) => {
   console.log('imageVehicle.dir: ', ...descriptor);
   const tmpPath = path.resolve('/', ...descriptor);
-  if ( tmpPath !== '/tmp' ) {
+  if (tmpPath !== '/tmp') {
     const newDir = await mkdir(tmpPath, { recursive: true }).then(data => tmpPath).catch(err => console.log(err));
     return newDir;
   }

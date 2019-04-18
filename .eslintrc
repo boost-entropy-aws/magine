@@ -1,8 +1,7 @@
 { "extends": "eslint-config-airbnb",
   "env": {
-    "browser": true,
-    "node": false,
-    "mocha": true
+    "browser": false,
+    "node": true
   },
   "rules": {
     "react/no-multi-comp": 0,
@@ -34,6 +33,6 @@
     "__DISABLE_SSR__": true,
     "__DEVTOOLS__": true,
     "socket": true,
-    "webpackIsomorphicTools": true
+    "webpackIsomorphicTools": true,
   }
 }

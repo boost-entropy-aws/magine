@@ -1,7 +1,7 @@
-exports.paths = (location) => {
-  console.log(location);
+exports.paths = (key) => {
+  console.log(key);
   const validPaths = /(box)|(category-item)|(circle)|(hero)|(icon-about)|(icon)|(mini)|(product-list)|(product)|(story-wide)/g;
-  const regexPath = validPaths.exec(location);
+  const regexPath = validPaths.exec(key);
   const [pathKey] = regexPath !== null ? regexPath : ['default'];
   const rules = require(`./${pathKey}_rules.json`);
   return rules;
