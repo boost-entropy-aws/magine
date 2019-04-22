@@ -1,46 +1,38 @@
 {
-    "mini": {
-        "ratio": [1,1],
-        "width": 32
-    },
-    "normal": {
-        "ratio": [1,1],
-        "width": 128
-    },
-    "icon": {
-        "ratio": [1,1],
-        "width": 100
-    },
-    "icon_retina": {
-        "ratio": [1,1],
-        "width": 200
-    },
-    "show": {
-        "ratio": [1,1],
-        "width": 405
-    },
-    "show_retina": {
-        "ratio": [1,1],
-        "width": 810
-    },
-    "box_view": {
-        "ratio": [1,1.25],
-        "width": 200
-    },
-    "box_view_retina": {
-        "ratio": [1,1.25],
-        "width": 400
-    },
-    "preview": {
+    "small": {
         "ratio": [],
-        "width": 400
+        "width": 375
     },
-    "desktop": {
+    "small-retina": {
         "ratio": [],
-        "width": 1440
+        "width": 750
     },
-    "retina": {
+    "small-super-retina": {
         "ratio": [],
-        "width": 1920
+        "width": 1125
+    },
+    "medium": {
+        "ratio": [],
+        "width": 768
+    },
+    "medium-retina": {
+        "ratio": [],
+        "width": 1536
+    },
+    "medium-super-retina": {
+        "ratio": [],
+        "width": 2304
+    },
+    "large": {
+        "ratio": [],
+        "width": 1024
+    },
+    "large-retina": {
+        "ratio": [],
+        "width": 2048
+    },
+    "large-super-retina": {
+        "ratio": [],
+        "width": 3072
     }
 }
