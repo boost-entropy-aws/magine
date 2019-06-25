@@ -19,7 +19,8 @@ exports.default = async (event, gmOptions, env) => {
     processingRule,
     uuid,
     imageName,
-    file
+    file,
+    message
   } = await imageVehicle.get(event);
   // this creates the /tmp directory
   const newDir = await imageVehicle.dir('tmp');
@@ -48,5 +49,5 @@ exports.default = async (event, gmOptions, env) => {
       uri: <String>
     }
   */
-  return response;
+  return { response, message };
 };
