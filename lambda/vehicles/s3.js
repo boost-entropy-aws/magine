@@ -30,7 +30,19 @@ exports.get = async (event) => {
     });
   });
 
+  const imageDecorator = s3Params => new Promise((resolve, reject) => {
+    const enhancedParams = Object.assign({}, s3Params, { Key: `${s3Params.Key.split('.')[0]}.json` });
+    s3.getObject(enhancedParams, (err, data) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(data.Body);
+      }
+    });
+  });
+
   const file = await image(params);
+  const message = await imageDecorator(params);
   return {
     error,
     fullLocation,
@@ -39,7 +51,8 @@ exports.get = async (event) => {
     processingRule,
     uuid,
     imageName,
-    file
+    file,
+    message
   };
 };
 
