@@ -18,7 +18,8 @@ rm ./lambda/bin/magick.tgz
 
 # Install packages
 cd ./lambda && npm install && cd ..
-
+LAMBDA_NAME=$1
+BUCKET=$2
 # Zip up the folder
 LAMBDA_CODE=magine-$(date +%Y%m%d-%H%M)
 zip --symlinks -r9 $LAMBDA_CODE.zip ./lambda
