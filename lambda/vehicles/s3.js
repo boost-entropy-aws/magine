@@ -36,13 +36,15 @@ exports.get = async (event) => {
       if (err) {
         reject(err);
       } else {
-        resolve(data.Body);
+        console.log('imageDecorator data', data);
+        resolve(data.Body.toString('utf8'));
       }
     });
   });
 
   const file = await image(params);
   const message = await imageDecorator(params);
+  console.log('message retrieved from s3 json', message);
   return {
     error,
     fullLocation,
@@ -84,6 +86,7 @@ exports.dir = async (...descriptor) => {
   const tmpPath = path.resolve('/', ...descriptor);
   if (tmpPath !== '/tmp') {
     const newDir = await mkdir(tmpPath, { recursive: true }).then(data => tmpPath).catch(err => console.log(err));
+    console.log('newDir', newDir);
     return newDir;
   }
   return tmpPath;
