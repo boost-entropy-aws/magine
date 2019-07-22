@@ -2,7 +2,7 @@ const AWS = require('aws-sdk');
 const s3 = new AWS.S3({
   signatureVersion: 'v4',
 });
-const { BUCKET } = process.env;
+const { MAGINE_BUCKET, ASSET_BUCKET } = process.env;
 const util = require('util');
 const fs = require('fs');
 const path = require('path');
@@ -17,7 +17,7 @@ exports.get = async (event) => {
   }
   const [storageKey, s3Trigger, processingRule, uuid, imageName] = fullLocation.split('/');
   const params = {
-    Bucket: BUCKET,
+    Bucket: MAGINE_BUCKET,
     Key: fullLocation
   };
   const image = s3Params => new Promise((resolve, reject) => {
@@ -64,7 +64,7 @@ exports.put = async (image, ...imagePaths) => {
   const newS3Key = `${storageKey}/${uuid}/${imageName.split('.')[0]}-${imageMod}.${imageName.split('.')[1]}`;
   const params = {
     Body: image,
-    Bucket: BUCKET,
+    Bucket: ASSET_BUCKET,
     Key: newS3Key
   };
   const newImage = s3Params => new Promise((resolve, reject) => {
