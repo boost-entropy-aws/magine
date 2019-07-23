@@ -68,3 +68,6 @@ lambda/bin/exodus/*
 
 # ImageMagick
 ImageMagick.tar.gz
+
+# Terraform state
+.terraform
