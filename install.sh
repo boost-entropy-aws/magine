@@ -21,7 +21,8 @@ cd ./lambda && npm install && cd ..
 LAMBDA_NAME=$1
 MAGINE_BUCKET=$2
 # Zip up the folder
-LAMBDA_CODE=magine-$(date +%Y%m%d-%H%M)
+LAMBDA_CODE=magine #-$(date +%Y%m%d-%H%M)
 zip --symlinks -r9 $LAMBDA_CODE.zip ./lambda
-aws s3 cp $LAMBDA_CODE.zip s3://$MAGINE_BUCKET/$LAMBDA_CODE.zip
-aws lambda update-function-code --function-name $LAMBDA_NAME --s3-bucket $MAGINE_BUCKET --s3-key $LAMBDA_CODE.zip --publish
+
+# aws s3 cp $LAMBDA_CODE.zip s3://$BUCKET/$LAMBDA_CODE.zip
+# aws lambda update-function-code --function-name $LAMBDA_NAME --s3-bucket $BUCKET --s3-key $LAMBDA_CODE.zip --publish

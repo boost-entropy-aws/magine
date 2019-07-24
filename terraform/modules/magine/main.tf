@@ -1,8 +1,3 @@
-data "aws_s3_bucket_object" "magine" {
-  bucket = "magine-${var.environment}"
-  key    = "magine.zip"
-}
-
 resource "aws_iam_role" "lambda" {
   name = "${var.service}-${var.environment}-lambda-role"
 
@@ -42,14 +37,14 @@ EOF
 }
 
 resource "aws_iam_role_policy_attachment" "sns" {
-role       = aws_iam_role.lambda.name
-policy_arn = aws_iam_policy.sns.arn
+  role       = aws_iam_role.lambda.name
+  policy_arn = aws_iam_policy.sns.arn
 }
 
 resource "aws_iam_policy" "cloudwatch" {
-name = "${var.service}-${var.environment}-cloudwatch-policy"
+  name = "${var.service}-${var.environment}-cloudwatch-policy"
 
-policy = <<EOF
+  policy = <<EOF
 {
   "Version": "2012-10-17",
   "Statement": [
@@ -72,14 +67,14 @@ EOF
 }
 
 resource "aws_iam_role_policy_attachment" "cloudwatch" {
-role = aws_iam_role.lambda.name
-policy_arn = aws_iam_policy.cloudwatch.arn
+  role = aws_iam_role.lambda.name
+  policy_arn = aws_iam_policy.cloudwatch.arn
 }
 
 resource "aws_iam_policy" "s3" {
-name = "${var.service}-${var.environment}-s3-policy"
+  name = "${var.service}-${var.environment}-s3-policy"
 
-policy = <<EOF
+  policy = <<EOF
 {
     "Version": "2012-10-17",
     "Statement": [
@@ -107,8 +102,8 @@ resource "aws_iam_role_policy_attachment" "s3" {
 }
 
 resource "aws_lambda_function" "magine" {
-  s3_bucket     = "magine-${var.environment}"
-  s3_key        = data.aws_s3_bucket_object.magine.key
+  s3_bucket     = aws_s3_bucket.magine.id
+  s3_key        = aws_s3_bucket_object.zip.key
   function_name = "${var.service}-${var.environment}"
   role          = aws_iam_role.lambda.arn
   handler       = "lambda/main.route"
@@ -145,6 +140,12 @@ resource "aws_s3_bucket" "magine" {
     Name        = "${var.service}-${var.environment}"
     Environment = var.environment
   }
+}
+
+resource "aws_s3_bucket_object" "zip" {
+  bucket = aws_s3_bucket.magine.id
+  key    = "magine.zip"
+  source = "../../../magine.zip"
 }
 
 resource "aws_s3_bucket_notification" "notification_1" {

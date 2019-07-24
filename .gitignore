@@ -71,3 +71,6 @@ ImageMagick.tar.gz
 
 # Terraform state
 .terraform
+
+# Zip files
+*.zip
