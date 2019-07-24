@@ -184,7 +184,7 @@ resource "aws_s3_bucket_object" "image" {
   bucket = aws_s3_bucket.magine.id
   acl    = "private"
   key    = "media/original/medium/${random_uuid.uuid.result}/sample.jpg"
-  source = "sample.jpg"
+  source = "../../assets/sample.jpg"
 
   depends_on = [
     aws_lambda_function.magine,
@@ -197,7 +197,7 @@ resource "aws_s3_bucket_object" "json" {
   bucket = aws_s3_bucket.magine.id
   acl    = "private"
   key    = "media/original/medium/${random_uuid.uuid.result}/sample.json"
-  source = "sample.json"
+  source = "../../assets/sample.json"
 
   depends_on = [
     aws_lambda_function.magine,
