@@ -1,3 +1,7 @@
+data "aws_s3_bucket" "assets" {
+  bucket = "${var.assets_bucket}"
+}
+
 resource "aws_iam_role" "lambda" {
   name = "${var.service}-${var.environment}-lambda-role"
 
@@ -82,13 +86,20 @@ resource "aws_iam_policy" "s3" {
             "Sid": "ListObjectsInBucket",
             "Effect": "Allow",
             "Action": "s3:ListBucket",
-            "Resource": ["${aws_s3_bucket.magine.arn}"]
+            "Resource": [
+              "${aws_s3_bucket.magine.arn}",
+              "${data.aws_s3_bucket.assets.arn}"
+            ]
         },
         {
             "Sid": "AllObjectActions",
             "Effect": "Allow",
             "Action": "s3:*Object",
-            "Resource": ["${aws_s3_bucket.magine.arn}/*"]
+            "Resource": [
+              "${aws_s3_bucket.magine.arn}/*",
+              "${data.aws_s3_bucket.assets.arn}/*"
+            ]
+
         }
     ]
 }
@@ -112,7 +123,7 @@ resource "aws_lambda_function" "magine" {
 
   environment {
     variables = {
-      ASSETS_BUCKET = var.assets_bucket
+      ASSETS_BUCKET = data.aws_s3_bucket.assets.id
       MAGINE_BUCKET = aws_s3_bucket.magine.id
       REGION    = var.region
       TOPIC_ARN = aws_sns_topic.magine.arn
