@@ -112,7 +112,8 @@ resource "aws_lambda_function" "magine" {
 
   environment {
     variables = {
-      BUCKET    = aws_s3_bucket.magine.id
+      ASSETS_BUCKET = var.assets_bucket
+      MAGINE_BUCKET = aws_s3_bucket.magine.id
       REGION    = var.region
       TOPIC_ARN = aws_sns_topic.magine.arn
     }

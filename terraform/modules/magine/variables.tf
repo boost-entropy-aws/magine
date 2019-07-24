@@ -10,3 +10,6 @@ variable "environment" {
   description = "Environment"
 }
 
+variable "assets_bucket" {
+  description = "Target bucket for transformed images"
+}

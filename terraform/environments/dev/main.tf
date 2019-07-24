@@ -13,6 +13,7 @@ terraform {
 module "magine" {
   source = "../../modules/magine"
 
-  region      = "us-east-1"
-  environment = "dev"
+  region        = "us-east-1"
+  environment   = "dev"
+  assets_bucket = "maisonette-dev"
 }
