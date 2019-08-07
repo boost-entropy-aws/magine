@@ -71,7 +71,7 @@ EOF
 }
 
 resource "aws_iam_role_policy_attachment" "cloudwatch" {
-  role = aws_iam_role.lambda.name
+  role       = aws_iam_role.lambda.name
   policy_arn = aws_iam_policy.cloudwatch.arn
 }
 
@@ -193,10 +193,11 @@ resource "random_uuid" "uuid" {
 }
 
 resource "aws_s3_bucket_object" "image" {
-  bucket = aws_s3_bucket.magine.id
-  acl    = "private"
-  key    = "media/original/medium/${random_uuid.uuid.result}/sample.jpg"
-  source = "../../assets/sample.jpg"
+  bucket       = aws_s3_bucket.magine.id
+  acl          = "private"
+  key          = "media/original/medium/${random_uuid.uuid.result}/sample.jpg"
+  source       = "../../assets/sample.jpg"
+  content_type = "image/jpeg"
 
   depends_on = [
     aws_lambda_function.magine,
@@ -206,10 +207,11 @@ resource "aws_s3_bucket_object" "image" {
 }
 
 resource "aws_s3_bucket_object" "json" {
-  bucket = aws_s3_bucket.magine.id
-  acl    = "private"
-  key    = "media/original/medium/${random_uuid.uuid.result}/sample.json"
-  source = "../../assets/sample.json"
+  bucket       = aws_s3_bucket.magine.id
+  acl          = "private"
+  key          = "media/original/medium/${random_uuid.uuid.result}/sample.json"
+  source       = "../../assets/sample.json"
+  content_type = "application/json"
 
   depends_on = [
     aws_lambda_function.magine,
@@ -241,7 +243,7 @@ EOF
 
 
   tags = {
-    Name = "${var.service}-${var.environment}"
+    Name        = "${var.service}-${var.environment}"
     Environment = var.environment
   }
 }
