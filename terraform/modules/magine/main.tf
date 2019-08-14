@@ -120,6 +120,7 @@ resource "aws_lambda_function" "magine" {
   handler       = "lambda/main.route"
   runtime       = "nodejs8.10"
   timeout       = 300
+  memory_size   = 1280
 
   environment {
     variables = {
