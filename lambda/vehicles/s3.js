@@ -1,4 +1,5 @@
 const AWS = require('aws-sdk');
+
 const s3 = new AWS.S3({
   signatureVersion: 'v4',
 });
@@ -85,9 +86,9 @@ exports.dir = async (...descriptor) => {
   console.log('imageVehicle.dir: ', ...descriptor);
   const tmpPath = path.resolve('/', ...descriptor);
   if (tmpPath !== '/tmp') {
-    const newDir = await mkdir(tmpPath, { recursive: true }).then(data => tmpPath).catch(err => console.log(err));
-    console.log('newDir', newDir);
-    return newDir;
+    const newDir = await mkdir(tmpPath, { recursive: true }).then(data => tmpPath).catch(err => err);
+    const returnedDir = Object.prototype.hasOwnProperty.call(newDir, 'code') ? tmpPath : newDir;
+    return returnedDir;
   }
   return tmpPath;
 };
