@@ -13,7 +13,7 @@ exports.route = async (event, context, callback) => {
   } else if (event.Records) {
     const fullLocation = event.Records[0].s3.object.key;
     const fileName = fullLocation.split('/').pop();
-    const extension = path.ext(fileName);
+    const extension = path.extname(fileName);
     if (extension === '.json') {
       return callback("Don't work on JSON files");
     }
@@ -26,6 +26,6 @@ exports.route = async (event, context, callback) => {
   const { response, message } = await magick.default(event, gmOpts, environment);
   const { error, ...imageWork } = response;
   await publish.pub(message, imageWork);
-  callback(error, imageWork);
+  return callback(error, imageWork);
   // TO DO: use the return value of imageWork to decide how to use callback(...params).
 };
