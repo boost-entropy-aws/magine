@@ -159,7 +159,7 @@ resource "aws_s3_bucket" "magine" {
 
 resource "aws_s3_bucket_object" "zip" {
   bucket = aws_s3_bucket.magine.id
-  key    = "magine.zip"
+  key    = "magine-${timestamp()}.zip"
   source = "../../../magine.zip"
 }
 
@@ -197,7 +197,7 @@ resource "random_uuid" "uuid" {
 resource "aws_s3_bucket_object" "image" {
   bucket       = aws_s3_bucket.magine.id
   acl          = "private"
-  key          = "media/original/medium/${random_uuid.uuid.result}/sample.jpg"
+  key          = "media/original/medium/${random_uuid.uuid.result}/sample-${replace(timestamp(), ":", "-")}.jpg"
   source       = "../../assets/sample.jpg"
   content_type = "image/jpeg"
 
@@ -205,21 +205,34 @@ resource "aws_s3_bucket_object" "image" {
     aws_lambda_function.magine,
     aws_s3_bucket.magine,
     aws_s3_bucket_notification.notification_1,
+    aws_s3_bucket_object.zip,
+    aws_s3_bucket_object.json
   ]
 }
 
 resource "aws_s3_bucket_object" "json" {
   bucket       = aws_s3_bucket.magine.id
   acl          = "private"
-  key          = "media/original/medium/${random_uuid.uuid.result}/sample.json"
-  source       = "../../assets/sample.json"
+  key          = "media/original/medium/${random_uuid.uuid.result}/sample-${replace(timestamp(), ":", "-")}.json"
   content_type = "application/json"
+  content      = <<EOF
+{
+  "name": "sample-${replace(timestamp(), ":", "-")}.jpg",
+  "size": "12992",
+  "type": "image/jpeg",
+  "ref": "page",
+  "refId": "1",
+  "field": "pages.1.socialImage",
+  "rule": "default"
+}
+EOF
 
   depends_on = [
     aws_lambda_function.magine,
     aws_s3_bucket.magine,
     aws_s3_bucket_notification.notification_1,
     aws_sns_topic.magine,
+    aws_s3_bucket_object.zip
   ]
 }
 
@@ -242,7 +255,6 @@ resource "aws_sns_topic" "magine" {
   }
 }
 EOF
-
 
   tags = {
     Name        = "${var.service}-${var.environment}"
