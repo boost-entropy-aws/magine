@@ -11,6 +11,12 @@ exports.route = async (event, context, callback) => {
     gmOpts = Object.assign({}, gmOpts, { appPath: `${path.resolve(__dirname, 'bin', 'exodus', 'bin', 'magick')}`, imageMagick: true });
     environment = 'api';
   } else if (event.Records) {
+    const fullLocation = event.Records[0].s3.object.key;
+    const fileName = fullLocation.split('/').pop();
+    const extension = path.extname(fileName);
+    if (extension === '.json') {
+      return callback("Don't work on JSON files");
+    }
     gmOpts = Object.assign({}, gmOpts, { appPath: `${path.resolve(__dirname, 'bin', 'exodus', 'bin', 'magick')}`, imageMagick: true });
     environment = 's3';
   } else if (event.key) {
@@ -20,6 +26,6 @@ exports.route = async (event, context, callback) => {
   const { response, message } = await magick.default(event, gmOpts, environment);
   const { error, ...imageWork } = response;
   await publish.pub(message, imageWork);
-  callback(error, imageWork);
+  return callback(error, imageWork);
   // TO DO: use the return value of imageWork to decide how to use callback(...params).
 };
