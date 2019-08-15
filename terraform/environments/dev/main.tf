@@ -16,4 +16,6 @@ module "magine" {
   region        = "us-east-1"
   environment   = "dev"
   assets_bucket = "maisonette-dev"
+  memory_size   = 1280
+  timeout       = 300
 }
