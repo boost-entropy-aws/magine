@@ -116,6 +116,7 @@ resource "aws_lambda_function" "magine" {
   s3_bucket     = aws_s3_bucket.magine.id
   s3_key        = aws_s3_bucket_object.zip.key
   function_name = "${var.service}-${var.environment}"
+  description   = var.description
   role          = aws_iam_role.lambda.arn
   handler       = "lambda/main.route"
   runtime       = "nodejs8.10"
