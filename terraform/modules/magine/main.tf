@@ -197,8 +197,8 @@ resource "random_uuid" "uuid" {
 resource "aws_s3_bucket_object" "image" {
   bucket       = aws_s3_bucket.magine.id
   acl          = "private"
-  key          = "media/original/medium/${random_uuid.uuid.result}/sample-${replace(timestamp(), ":", "-")}.jpg"
-  source       = "../../assets/sample.jpg"
+  key          = "media/original/medium/${random_uuid.uuid.result}/sample-${replace(timestamp(), ":", "-")}.jpeg"
+  source       = "../../assets/sample.jpeg"
   content_type = "image/jpeg"
 
   depends_on = [
@@ -217,7 +217,7 @@ resource "aws_s3_bucket_object" "json" {
   content_type = "application/json"
   content      = <<EOF
 {
-  "name": "sample-${replace(timestamp(), ":", "-")}.jpg",
+  "name": "sample-${replace(timestamp(), ":", "-")}.jpeg",
   "size": "12992",
   "type": "image/jpeg",
   "ref": "page",
