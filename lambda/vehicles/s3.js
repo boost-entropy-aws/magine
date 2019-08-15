@@ -3,7 +3,7 @@ const AWS = require('aws-sdk');
 const s3 = new AWS.S3({
   signatureVersion: 'v4',
 });
-const { MAGINE_BUCKET, ASSET_BUCKET } = process.env;
+const { MAGINE_BUCKET, ASSETS_BUCKET } = process.env;
 const util = require('util');
 const fs = require('fs');
 const path = require('path');
@@ -65,7 +65,7 @@ exports.put = async (image, ...imagePaths) => {
   const newS3Key = `${storageKey}/${uuid}/${imageName.split('.')[0]}-${imageMod}.${imageName.split('.')[1]}`;
   const params = {
     Body: image,
-    Bucket: ASSET_BUCKET,
+    Bucket: ASSETS_BUCKET,
     Key: newS3Key
   };
   const newImage = s3Params => new Promise((resolve, reject) => {
