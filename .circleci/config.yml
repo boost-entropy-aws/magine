@@ -12,17 +12,18 @@ jobs:
     steps:
       - checkout
       - run:
+          name: Install
+          command: |
+            wget https://releases.hashicorp.com/terraform/0.12.6/terraform_0.12.6_linux_amd64.zip
+            unzip terraform_0.12.6_linux_amd64.zip
+            rm -rf terraform_0.12.6_linux_amd64.zip
+            sudo mv terraform /usr/local/bin
+            terraform --version
+      - run:
           name: Build
           command: |
             ls
             sh build.sh
-      - run:
-          name: Install Terraform
-          command: |
-            wget https://releases.hashicorp.com/terraform/0.12.6/terraform_0.12.6_linux_amd64.zip
-            unzip terraform_0.12.6_linux_amd64.zip
-            sudo mv terraform /usr/local/bin
-            terraform --version
       - run:
           name: Deploy
           command: |
