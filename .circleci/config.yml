@@ -6,10 +6,18 @@ workflows:
     jobs:
       - deploy-dev:
           context: magine-dev
+      - approve-stg:
+          type: approval
+          requires:
+            - deploy-dev
+          filters:
+            branches:
+              only:
+                - master
       - deploy-stg:
           context: magine-stg
           requires:
-            - deploy-dev
+            - approve-stg
           filters:
             branches:
               only:
