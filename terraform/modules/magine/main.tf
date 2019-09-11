@@ -1,3 +1,8 @@
+locals {
+  timestamp = "${replace(timestamp(), ":", "-")}"
+}
+
+
 data "aws_s3_bucket" "assets" {
   bucket = "${var.assets_bucket}"
 }
@@ -159,7 +164,7 @@ resource "aws_s3_bucket" "magine" {
 
 resource "aws_s3_bucket_object" "zip" {
   bucket = aws_s3_bucket.magine.id
-  key    = "magine-${timestamp()}.zip"
+  key    = "magine-${local.timestamp}.zip"
   source = "../../../magine.zip"
 }
 
@@ -197,7 +202,7 @@ resource "random_uuid" "uuid" {
 resource "aws_s3_bucket_object" "image" {
   bucket       = aws_s3_bucket.magine.id
   acl          = "private"
-  key          = "media/original/medium/${random_uuid.uuid.result}/sample-${replace(timestamp(), ":", "-")}.jpeg"
+  key          = "media/original/medium/${random_uuid.uuid.result}/sample-${local.timestamp}.jpeg"
   source       = "../../assets/sample.jpeg"
   content_type = "image/jpeg"
 
@@ -213,11 +218,11 @@ resource "aws_s3_bucket_object" "image" {
 resource "aws_s3_bucket_object" "json" {
   bucket       = aws_s3_bucket.magine.id
   acl          = "private"
-  key          = "media/original/medium/${random_uuid.uuid.result}/sample-${replace(timestamp(), ":", "-")}.json"
+  key          = "media/original/medium/${random_uuid.uuid.result}/sample-${local.timestamp}.json"
   content_type = "application/json"
   content      = <<EOF
 {
-  "name": "sample-${replace(timestamp(), ":", "-")}.jpeg",
+  "name": "sample-${local.timestamp}.jpeg",
   "size": "12992",
   "type": "image/jpeg",
   "ref": "page",
