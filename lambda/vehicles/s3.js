@@ -22,6 +22,7 @@ exports.get = async (event) => {
     Key: fullLocation
   };
   const image = s3Params => new Promise((resolve, reject) => {
+    console.log('Get object:', s3Params);
     s3.getObject(s3Params, (err, data) => {
       if (err) {
         reject(err);
@@ -33,6 +34,7 @@ exports.get = async (event) => {
 
   const imageDecorator = s3Params => new Promise((resolve, reject) => {
     const enhancedParams = Object.assign({}, s3Params, { Key: `${s3Params.Key.split('.')[0]}.json` });
+    console.log('Get object:', enhancedParams);
     s3.getObject(enhancedParams, (err, data) => {
       if (err) {
         reject(err);
@@ -69,6 +71,7 @@ exports.put = async (image, ...imagePaths) => {
     Key: newS3Key
   };
   const newImage = s3Params => new Promise((resolve, reject) => {
+    console.log('Put object:', s3Params)
     s3.upload(s3Params, (err, data) => {
       if (err) {
         reject(err);

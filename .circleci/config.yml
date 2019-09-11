@@ -2,14 +2,14 @@ version: 2.1
 
 workflows:
   version: 2
-  build-deploy:
+  deploy-dev:
     jobs:
       - deploy-dev:
           context: magine-dev
+  deploy-stg:
+    jobs:
       - approve-stg:
           type: approval
-          requires:
-            - deploy-dev
           filters:
             branches:
               only:
