@@ -6,6 +6,14 @@ workflows:
     jobs:
       - deploy-dev:
           context: magine-dev
+  deploy-qa:
+    jobs:
+      - approve-qa:
+          type: approval
+      - deploy-qa:
+          context: magine-qa
+          requires:
+            - approve-qa
   deploy-stg:
     jobs:
       - approve-stg:
@@ -29,6 +37,11 @@ jobs:
     steps:
       - apply:
           environment: dev
+  deploy-qa: 
+    machine: true
+    steps:
+      - apply:
+          environment: qa
   deploy-stg: 
     machine: true
     steps:

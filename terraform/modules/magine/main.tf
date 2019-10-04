@@ -99,7 +99,7 @@ resource "aws_iam_policy" "s3" {
         {
             "Sid": "AllObjectActions",
             "Effect": "Allow",
-            "Action": "s3:*Object",
+            "Action": "s3:*",
             "Resource": [
               "${aws_s3_bucket.magine.arn}/*",
               "${data.aws_s3_bucket.assets.arn}/*"
