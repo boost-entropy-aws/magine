@@ -64,11 +64,13 @@ exports.get = async (event) => {
 exports.put = async (image, ...imagePaths) => {
   console.log('imagePaths: ', imagePaths);
   const [storageKey, uuid, imageName, imageMod] = imagePaths;
-  const newS3Key = `${storageKey}/${uuid}/${imageName.split('.')[0]}-${imageMod}.${imageName.split('.')[1]}`;
+  const [name, type] = imageName.split('.');
+  const newS3Key = `${storageKey}/${uuid}/${name}-${imageMod}.${type}`;
   const params = {
     Body: image,
     Bucket: ASSETS_BUCKET,
-    Key: newS3Key
+    Key: newS3Key,
+    ContentType: `image/${type}`
   };
   const newImage = s3Params => new Promise((resolve, reject) => {
     console.log('Put object:', s3Params)
