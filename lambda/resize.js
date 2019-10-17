@@ -42,6 +42,12 @@ exports.default = async (rules, imageVehicle, storageKey, uuid, imageName, tempO
       'sRGB',
       '-strip'
     ];
+    const magickGifArgs = [
+      '-coalesce',
+      '-thumbnail',
+      `${imageDim.width}`,
+      '-deconstruct'
+    ];
     try {
       tmpResizedDescriptor = await imageVehicle.dir('tmp', imageMod);
     } catch (e) {
@@ -50,7 +56,12 @@ exports.default = async (rules, imageVehicle, storageKey, uuid, imageName, tempO
     // this sets the location and descriptor of the resized file
     const resizedPath = path.resolve(tmpResizedDescriptor, imageName);
     // TODO: check that this works, as I am passing in the temp paths.
-    const argsArray = [tempOriginal, ...magickArgs, resizedPath];
+    let argsArray;
+    if (imageName.split('.')[1] === 'gif') {
+      argsArray = [tempOriginal, ...magickGifArgs, resizedPath];
+    } else {
+      argsArray = [tempOriginal, ...magickArgs, resizedPath];
+    }
     const magickProcess = childProcess.spawnSync(appPath, argsArray); // eslint-disable-line no-unused-vars
     try {
       resizedImage = await readFile(resizedPath).then(data => data);
