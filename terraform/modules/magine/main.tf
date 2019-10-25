@@ -168,7 +168,7 @@ resource "aws_s3_bucket_object" "zip" {
   source = "../../../magine.zip"
 }
 
-resource "aws_s3_bucket_notification" "notification_1" {
+resource "aws_s3_bucket_notification" "notification" {
   bucket = aws_s3_bucket.magine.id
 
   lambda_function {
@@ -209,7 +209,7 @@ resource "aws_s3_bucket_object" "image" {
   depends_on = [
     aws_lambda_function.magine,
     aws_s3_bucket.magine,
-    aws_s3_bucket_notification.notification_1,
+    aws_s3_bucket_notification.notification,
     aws_s3_bucket_object.zip,
     aws_s3_bucket_object.json
   ]
@@ -235,7 +235,7 @@ EOF
   depends_on = [
     aws_lambda_function.magine,
     aws_s3_bucket.magine,
-    aws_s3_bucket_notification.notification_1,
+    aws_s3_bucket_notification.notification,
     aws_sns_topic.magine,
     aws_s3_bucket_object.zip
   ]
