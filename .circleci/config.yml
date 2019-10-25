@@ -28,6 +28,8 @@ workflows:
             - approve-stg
       - approve-prd:
           type: approval
+          requires:
+            - deploy-stg
       - deploy-prd:
           context: magine-prd
           requires:
@@ -49,7 +51,7 @@ jobs:
     steps:
       - apply:
           environment: stg
-  deploy-stg: 
+  deploy-prd: 
     machine: true
     steps:
       - apply:
