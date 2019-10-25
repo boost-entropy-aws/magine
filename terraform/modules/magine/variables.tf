@@ -30,6 +30,6 @@ variable "timeout" {
 }
 
 variable "runtime" {
-  description = "Lambda function runtime, nodejs8.10 or nodejs10.x"
-  default     = "nodejs8.10"
+  description = "Lambda function runtime"
+  default     = "nodejs10.x"
 }
