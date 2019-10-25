@@ -12,7 +12,7 @@ variable "environment" {
 
 variable "description" {
   description = "Description of what your Lambda Function does"
-  default     = ""
+  default     = "An image service for managing crops and optimizing sizes"
 }
 
 variable "assets_bucket" {
@@ -27,4 +27,9 @@ variable "memory_size" {
 variable "timeout" {
   description = "The amount of time your Lambda Function has to run in seconds"
   default     = 3
+}
+
+variable "runtime" {
+  description = "Lambda function runtime"
+  default     = "nodejs10.x"
 }

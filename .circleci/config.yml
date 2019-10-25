@@ -14,7 +14,7 @@ workflows:
           context: magine-qa
           requires:
             - approve-qa
-  deploy-stg:
+  deploy:
     jobs:
       - approve-stg:
           type: approval
@@ -26,10 +26,14 @@ workflows:
           context: magine-stg
           requires:
             - approve-stg
-          filters:
-            branches:
-              only:
-                - master
+      - approve-prd:
+          type: approval
+          requires:
+            - deploy-stg
+      - deploy-prd:
+          context: magine-prd
+          requires:
+            - approve-prd
 
 jobs:
   deploy-dev: 
@@ -47,6 +51,11 @@ jobs:
     steps:
       - apply:
           environment: stg
+  deploy-prd: 
+    machine: true
+    steps:
+      - apply:
+          environment: prd
 
 commands:
   apply:
