@@ -12,7 +12,7 @@ variable "environment" {
 
 variable "description" {
   description = "Description of what your Lambda Function does"
-  default     = ""
+  default     = "An image service for managing crops and optimizing sizes"
 }
 
 variable "assets_bucket" {

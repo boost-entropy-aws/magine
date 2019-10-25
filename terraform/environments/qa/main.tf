@@ -13,7 +13,6 @@ terraform {
 module "magine" {
   source = "../../modules/magine"
 
-  description   = "An image service for managing crops and optimizing sizes"
   region        = "us-west-2"
   environment   = "qa"
   assets_bucket = "maisonette-qa"
