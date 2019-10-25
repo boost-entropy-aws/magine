@@ -18,4 +18,5 @@ module "magine" {
   assets_bucket = "maisonette-qa"
   memory_size   = 1280
   timeout       = 300
+  runtime       = "nodejs10.x"
 }
