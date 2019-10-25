@@ -124,7 +124,7 @@ resource "aws_lambda_function" "magine" {
   description   = var.description
   role          = aws_iam_role.lambda.arn
   handler       = "lambda/main.route"
-  runtime       = "nodejs8.10"
+  runtime       = var.runtime
   timeout       = var.timeout
   memory_size   = var.memory_size
 
