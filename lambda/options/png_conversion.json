@@ -1,8 +1,8 @@
 {
-  "png": {
-    "extension": "png"
-  },
   "webp": {
     "extension": "webp"
+  },
+  "png": {
+    "extension": "png"
   }
 }
