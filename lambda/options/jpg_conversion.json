@@ -1,11 +1,11 @@
 {
-  "jpg": {
-    "extension": "jpg"
+  "webp": {
+    "extension": "webp"
   },
   "jpeg2000": {
     "extension": "jp2"
   },
-  "webp": {
-    "extension": "webp"
+  "jpeg": {
+    "extension": "jpg"
   }
 }
