@@ -2,7 +2,6 @@ const path = require('path');
 const childProcess = require('child_process');
 const fs = require('fs');
 const util = require('util');
-const gifsicle = require('gifsicle');
 
 const readFile = util.promisify(fs.readFile);
 
@@ -43,10 +42,6 @@ exports.default = async (rules, imageVehicle, storageKey, uuid, imageName, tempO
       'sRGB',
       '-strip'
     ];
-    const gifsicleArgs = [
-      '--resize-width',
-      `${imageDim.width}`,
-    ];
     const magickGifArgs = [
       '+dither',
       '-layers',
@@ -66,17 +61,6 @@ exports.default = async (rules, imageVehicle, storageKey, uuid, imageName, tempO
     let argsArray;
     if (imageName.split('.')[1] === 'gif') {
       argsArray = [tempOriginal, ...magickGifArgs, resizedPath];
-      // const [tempOriginalGif, ext] = tempOriginal.split('.');
-      // const tempGif = [tempOriginalGif, '-resized', '.', ext].join('');
-      // console.log('tempGif ', tempGif);
-      // childProcess.execFile(gifsicle, [tempOriginal, '-o', tempGif, ...gifsicleArgs], (error) => {
-      //   if (error) {
-      //     console.log('gifsicle err ', error);
-      //     return error;
-      //   }
-      //   argsArray = [tempGif, ...magickGifArgs, resizedPath];
-      //   return true;
-      // });
     } else {
       argsArray = [tempOriginal, ...magickArgs, resizedPath];
     }
