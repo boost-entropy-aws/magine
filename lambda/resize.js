@@ -2,6 +2,7 @@ const path = require('path');
 const childProcess = require('child_process');
 const fs = require('fs');
 const util = require('util');
+const gifsicle = require('gifsicle');
 
 const readFile = util.promisify(fs.readFile);
 
@@ -42,15 +43,21 @@ exports.default = async (rules, imageVehicle, storageKey, uuid, imageName, tempO
       'sRGB',
       '-strip'
     ];
-    const magickGifArgs = [
-      '-coalesce',
-      '-thumbnail',
+    const gifsicleArgs = [
+      '--resize-width',
       `${imageDim.width}`,
-      '-deconstruct'
+    ];
+    const magickGifArgs = [
+      '+dither',
+      '-layers',
+      'Optimize',
+      '-colors',
+      '32'
     ];
     try {
       tmpResizedDescriptor = await imageVehicle.dir('tmp', imageMod);
     } catch (e) {
+      console.log('resized images e ', e);
       err = e;
     }
     // this sets the location and descriptor of the resized file
@@ -59,9 +66,21 @@ exports.default = async (rules, imageVehicle, storageKey, uuid, imageName, tempO
     let argsArray;
     if (imageName.split('.')[1] === 'gif') {
       argsArray = [tempOriginal, ...magickGifArgs, resizedPath];
+      // const [tempOriginalGif, ext] = tempOriginal.split('.');
+      // const tempGif = [tempOriginalGif, '-resized', '.', ext].join('');
+      // console.log('tempGif ', tempGif);
+      // childProcess.execFile(gifsicle, [tempOriginal, '-o', tempGif, ...gifsicleArgs], (error) => {
+      //   if (error) {
+      //     console.log('gifsicle err ', error);
+      //     return error;
+      //   }
+      //   argsArray = [tempGif, ...magickGifArgs, resizedPath];
+      //   return true;
+      // });
     } else {
       argsArray = [tempOriginal, ...magickArgs, resizedPath];
     }
+    console.log('argsArray ', argsArray);
     const magickProcess = childProcess.spawnSync(appPath, argsArray); // eslint-disable-line no-unused-vars
     try {
       resizedImage = await readFile(resizedPath).then(data => data);
