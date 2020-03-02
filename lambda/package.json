@@ -10,8 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "ajv": "6.10.0",
-    "aws-sdk": "2.229.1",
-    "gifsicle": "5.0.0"
+    "aws-sdk": "2.229.1"
   },
   "devDependencies": {
     "eslint": "^5.9.0",
