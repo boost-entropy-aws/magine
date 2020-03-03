@@ -31,6 +31,7 @@ exports.default = async (event, gmOptions, env) => {
   const rules = imageOptions.paths(processingRule);
   const { appPath = 'magick' } = gmOptions;
   // resize each image =>
+  console.log('rules ', rules);
   const resizeImages = await resize(rules, imageVehicle, storageKey, uuid, imageName, tempOriginal, appPath);
   const { error: newErr, converted } = await format(resizeImages);
   const types = await converted;

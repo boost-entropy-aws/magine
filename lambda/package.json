@@ -9,8 +9,8 @@
   "author": "Maisonette ( jon@maisonette.com )",
   "license": "ISC",
   "dependencies": {
-    "aws-sdk": "^2.229.1",
-    "ajv": "^6.10.0"
+    "ajv": "6.10.0",
+    "aws-sdk": "2.229.1"
   },
   "devDependencies": {
     "eslint": "^5.9.0",
