@@ -16,6 +16,7 @@ module "magine" {
   region        = "us-west-2"
   environment   = "qa"
   assets_bucket = "maisonette-qa"
+  cms_bucket    = "maisonette-cms-qa"
   memory_size   = 1280
   timeout       = 300
 }
