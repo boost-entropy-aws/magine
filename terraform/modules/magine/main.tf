@@ -206,10 +206,6 @@ resource "aws_s3_bucket_object" "image" {
   source       = "../../assets/sample.jpeg"
   content_type = "image/jpeg"
 
-  cors_rule {
-    max_age_seconds = 31536000
-  }
-
   depends_on = [
     aws_lambda_function.magine,
     aws_s3_bucket.magine,
