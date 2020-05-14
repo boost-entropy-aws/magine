@@ -70,7 +70,8 @@ exports.put = async (image, ...imagePaths) => {
     Body: image,
     Bucket: ASSETS_BUCKET,
     Key: newS3Key,
-    ContentType: `image/${type}`
+    ContentType: `image/${type}`,
+    CacheControl: 'max-age=31536000'
   };
   const newImage = s3Params => new Promise((resolve, reject) => {
     console.log('Put object:', s3Params)
