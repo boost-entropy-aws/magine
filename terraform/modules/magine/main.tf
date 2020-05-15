@@ -7,6 +7,10 @@ data "aws_s3_bucket" "assets" {
   bucket = "${var.assets_bucket}"
 }
 
+data "aws_s3_bucket" "cms" {
+  bucket = "${var.cms_bucket}"
+}
+
 resource "aws_iam_role" "lambda" {
   name = "${var.service}-${var.environment}-lambda-role"
 
@@ -93,7 +97,8 @@ resource "aws_iam_policy" "s3" {
             "Action": "s3:ListBucket",
             "Resource": [
               "${aws_s3_bucket.magine.arn}",
-              "${data.aws_s3_bucket.assets.arn}"
+              "${data.aws_s3_bucket.assets.arn}",
+              "${data.aws_s3_bucket.cms.arn}"
             ]
         },
         {
@@ -102,7 +107,8 @@ resource "aws_iam_policy" "s3" {
             "Action": "s3:*",
             "Resource": [
               "${aws_s3_bucket.magine.arn}/*",
-              "${data.aws_s3_bucket.assets.arn}/*"
+              "${data.aws_s3_bucket.assets.arn}/*",
+              "${data.aws_s3_bucket.cms.arn}/*"
             ]
 
         }

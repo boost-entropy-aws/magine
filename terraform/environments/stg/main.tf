@@ -16,6 +16,7 @@ module "magine" {
   region        = "us-west-2"
   environment   = "stg"
   assets_bucket = "maisonette-stg"
+  cms_bucket    = "maisonette-cms-stg"
   memory_size   = 1280
   timeout       = 300
 }

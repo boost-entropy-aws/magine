@@ -19,6 +19,10 @@ variable "assets_bucket" {
   description = "Target bucket for transformed images"
 }
 
+variable "cms_bucket" {
+  description = "Bucket use for CMS previews"
+}
+
 variable "memory_size" {
   description = "Amount of memory in MB your Lambda Function can use at runtime"
   default     = 128
