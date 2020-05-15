@@ -22,7 +22,6 @@ workflows:
             branches:
               only:
                 - master
-                - feature/preproduction-environment
   deploy:
     jobs:
       - approve-stg:
