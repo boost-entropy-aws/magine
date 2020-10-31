@@ -23,7 +23,7 @@ workflows:
             branches:
               only:
                 - develop
-                - release*
+                - /release\/.*/
       - deploy-ppd:
           context: magine-dev
           requires:
