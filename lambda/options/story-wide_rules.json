@@ -25,14 +25,14 @@
   },
   "large": {
     "ratio": [],
-    "width": 750
+    "width": 1090
   },
   "large-retina": {
     "ratio": [],
-    "width": 1500
+    "width": 2180
   },
   "large-super-retina": {
     "ratio": [],
-    "width": 2250
+    "width": 3270
   }
 }
