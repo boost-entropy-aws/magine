@@ -15,7 +15,7 @@ exports.route = async (event, context, callback) => {
     const fileName = fullLocation.split('/').pop();
     const extension = path.extname(fileName);
     if (extension === '.json') {
-      return callback("Don't work on JSON files");
+      return callback(null, "Don't work on JSON files");
     }
     gmOpts = Object.assign({}, gmOpts, { appPath: `${path.resolve(__dirname, 'bin', 'exodus', 'bin', 'magick')}`, imageMagick: true });
     environment = 's3';
