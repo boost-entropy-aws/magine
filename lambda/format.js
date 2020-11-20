@@ -35,9 +35,7 @@ exports.default = async (params) => {
         }
         const [blank, temporary, imageMod, reformattedImageName] = resizedReformatted.split('/');
         try {
-          console.log('format::reformatedImage:', reformatedImage);
           returnedImage = await imageVehicle.put(reformatedImage, storageKey, uuid, reformattedImageName, imageMod);
-          console.log('format::returnedImage:', returnedImage);
         } catch (e) {
           error = e;
         }
