@@ -29,6 +29,7 @@ exports.default = async (event, gmOptions, env) => {
   fs.stat(tempOriginal, (err, stats) => !err ? console.log(stats) : console.log(err));
   // get data options for images based on path
   const rules = imageOptions.paths(processingRule);
+  console.log('magick::tempOriginal', tempOriginal);
   const { appPath = 'magick' } = gmOptions;
   // resize each image =>
   console.log('rules ', rules);

@@ -77,7 +77,6 @@ exports.default = async (rules, imageVehicle, storageKey, uuid, imageName, tempO
     try {
       console.log('resize::resizedImage:', resizedImage);
       returnedImage = await imageVehicle.put(resizedImage, storageKey, uuid, imageName, imageMod);
-      console.log('resize::returnedImage:', returnedImage);
     } catch (e) {
       err = e;
     }

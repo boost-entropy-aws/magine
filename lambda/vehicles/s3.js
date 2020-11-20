@@ -91,9 +91,11 @@ exports.put = async (image, ...imagePaths) => {
 exports.dir = async (...descriptor) => {
   console.log('imageVehicle.dir: ', ...descriptor);
   const tmpPath = path.resolve('/', ...descriptor);
+  console.log('vehiclesS3::tmpPath', tmpPath);
   if (tmpPath !== '/tmp') {
     const newDir = await mkdir(tmpPath, { recursive: true }).then(data => tmpPath).catch(err => err);
     const returnedDir = Object.prototype.hasOwnProperty.call(newDir, 'code') ? tmpPath : newDir;
+    console.log('vehiclesS3::returnedDir', returnedDir);
     return returnedDir;
   }
   return tmpPath;
