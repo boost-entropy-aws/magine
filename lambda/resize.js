@@ -73,7 +73,9 @@ exports.default = async (rules, imageVehicle, storageKey, uuid, imageName, tempO
     }
     // this below will perform I/O in non local formats.
     try {
+      console.log('resize::resizedImage:', resizedImage);
       returnedImage = await imageVehicle.put(resizedImage, storageKey, uuid, imageName, imageMod);
+      console.log('resize::returnedImage:', returnedImage);
     } catch (e) {
       err = e;
     }
