@@ -67,17 +67,18 @@ exports.default = async (rules, imageVehicle, storageKey, uuid, imageName, tempO
     console.log('argsArray ', argsArray);
     const magickProcess = childProcess.spawnSync(appPath, argsArray); // eslint-disable-line no-unused-vars
     try {
-      console.log('resize::resizedPath', resizedPath)
       resizedImage = await readFile(resizedPath).then(data => data);
+      console.log('resize::resizedImage at resizedImage line 71', resizedImage);
     } catch (e) {
-      console.log('resize::resizedImage catch', e)
+      console.log('resize::resizedImage catch line 73', e)
       err = e;
     }
     // this below will perform I/O in non local formats.
     try {
-      console.log('resize::resizedImage:', resizedImage);
+      console.log('resize::resizedImage line 78:', resizedImage);
       returnedImage = await imageVehicle.put(resizedImage, storageKey, uuid, imageName, imageMod);
     } catch (e) {
+      console.log('resize::returnedImage catch: line 81', e);
       err = e;
     }
     return resizedPath;
