@@ -68,8 +68,8 @@ exports.default = async (rules, imageVehicle, storageKey, uuid, imageName, tempO
 
     try {
       const magickProcess = childProcess.spawnSync(appPath, argsArray); // eslint-disable-line no-unused-vars
-      if (magickProcess.stdout) console.log('magickProcess.stdout:', magickProcess.stdout);
-      if (magickProcess.stderr) console.log('magickProcess.stderr:', magickProcess.stderr);
+      if (magickProcess.stdout) console.log('magickProcess.stdout:', magickProcess.stdout.toString());
+      if (magickProcess.stderr) console.log('magickProcess.stderr:', magickProcess.stderr.toString());
     } catch (e) {
       console.log('resize::magickProcess line 74', e);
       err = e;
