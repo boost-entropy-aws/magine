@@ -65,20 +65,29 @@ exports.default = async (rules, imageVehicle, storageKey, uuid, imageName, tempO
       argsArray = [tempOriginal, ...magickArgs, resizedPath];
     }
     console.log('argsArray ', argsArray);
-    const magickProcess = childProcess.spawnSync(appPath, argsArray); // eslint-disable-line no-unused-vars
+
+    try {
+      const magickProcess = childProcess.spawnSync(appPath, argsArray); // eslint-disable-line no-unused-vars
+      magickProcess.stdout.on('data', data => console.log('stdout', data));
+      magickProcess.stderr.on('data', data => console.log('stderr', data));
+    } catch (e) {
+      console.log('resize::magickProcess line 74', e);
+      err = e;
+    }
+
     try {
       resizedImage = await readFile(resizedPath).then(data => data);
-      console.log('resize::resizedImage at resizedImage line 71', resizedImage);
+      console.log('resize::resizedImage at resizedImage line 80', resizedImage);
     } catch (e) {
-      console.log('resize::resizedImage catch line 73', e)
+      console.log('resize::resizedImage catch line 82', e);
       err = e;
     }
     // this below will perform I/O in non local formats.
     try {
-      console.log('resize::resizedImage line 78:', resizedImage);
+      console.log('resize::resizedImage line 87:', resizedImage);
       returnedImage = await imageVehicle.put(resizedImage, storageKey, uuid, imageName, imageMod);
     } catch (e) {
-      console.log('resize::returnedImage catch: line 81', e);
+      console.log('resize::returnedImage catch: line 90', e);
       err = e;
     }
     return resizedPath;
