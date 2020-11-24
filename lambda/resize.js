@@ -68,6 +68,16 @@ exports.default = async (rules, imageVehicle, storageKey, uuid, imageName, tempO
 
     try {
       const magickProcess = childProcess.spawnSync(appPath, argsArray); // eslint-disable-line no-unused-vars
+      childProcess.exec('convert -list configure | grep -i "delegates"', (error, stdout, stderr) => {
+        if (error) {
+          console.error(`exec error: ${error}`);
+          return;
+        }
+        console.log(`exec stdout: ${stdout}`);
+        console.error(`exc stderr: ${stderr}`);
+      })
+
+
       if (magickProcess.stdout) console.log('magickProcess.stdout:', magickProcess.stdout.toString());
       if (magickProcess.stderr) console.log('magickProcess.stderr:', magickProcess.stderr.toString());
     } catch (e) {
