@@ -24,6 +24,12 @@ exports.default = async (event, gmOptions, env) => {
   } = await imageVehicle.get(event);
   // this creates the /tmp directory
   const newDir = await imageVehicle.dir('tmp');
+  console.log('magick::fullLocation', fullLocation,
+    'magick::imageName', imageName,
+    'magick::newDir', newDir,
+    'magick::message', message,
+    'magick::storageKey', storageKey
+  );
   // write a temporary file
   const tempOriginal = await writeFile(path.resolve(newDir, imageName), file).then(data => path.resolve(newDir, imageName));
   fs.stat(tempOriginal, (err, stats) => !err ? console.log(stats) : console.log(err));
