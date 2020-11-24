@@ -31,11 +31,9 @@ RUN yum clean all
 
 # Download image dependencies
 RUN wget https://www.imagemagick.org/download/delegates/openjpeg-2.3.0.tar.gz
-RUN wget https://www.imagemagick.org/download/delegates/libxml2-2.9.6.tar.gz
 RUN wget https://www.imagemagick.org/download/ImageMagick.tar.gz
 
 RUN tar -xzvf openjpeg-*.tar.gz
-RUN tar -xzvf libxml2-*.tar.gz
 RUN tar -xzvf ImageMagick.tar.gz
 
 RUN cd openjpeg-* \
@@ -60,7 +58,6 @@ RUN /usr/local/bin/magick -list format | grep -i "^[[:space:]]*webp"
 
 # Remove tar files
 RUN rm openjpeg-*.tar.gz
-RUN rm libxml2-*.tar.gz
 RUN rm ImageMagick.tar.gz
 
 # pip installation
