@@ -1,6 +1,7 @@
 const path = require('path');
 const fs = require('fs');
 const util = require('util');
+const sizeOf = require('image-size');
 
 const writeFile = util.promisify(fs.writeFile);
 const resize = require('./resize').default;
@@ -35,11 +36,17 @@ exports.default = async (event, gmOptions, env) => {
   const resizeImages = await resize(rules, imageVehicle, storageKey, uuid, imageName, tempOriginal, appPath);
   const { error: newErr, converted } = await format(resizeImages);
   const types = await converted;
+  const dimensions = sizeOf(tempOriginal);
   const response = {
     error: newErr,
     types,
     imageName,
-    uri: `${storageKey}/${uuid}/`
+    uri: `${storageKey}/${uuid}/`,
+    dimensions: {
+      originalHeight: dimensions.height,
+      originalWidth: dimensions.width,
+      aspectRatio: parseFloat((dimensions.width / dimensions.height).toFixed(2))
+    }
   };
   // response should look like this:
   /*
