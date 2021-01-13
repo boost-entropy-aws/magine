@@ -71,8 +71,11 @@ exports.default = async (rules, imageVehicle, storageKey, uuid, imageName, tempO
       resizedImage = await readFile(resizedPath).then((data) => {
         console.log('resizedPath::data', data)
         return data
+      }).catch((error) => {
+        console.log('resizedPath::error', error)
       });
     } catch (e) {
+      console.log('resizedImage::error', e)
       err = e;
     }
     // this below will perform I/O in non local formats.
