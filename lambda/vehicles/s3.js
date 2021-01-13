@@ -62,6 +62,7 @@ exports.get = async (event) => {
 };
 
 exports.put = async (image, ...imagePaths) => {
+  console.log('image: ', image);
   console.log('imagePaths: ', imagePaths);
   const [storageKey, uuid, imageName, imageMod] = imagePaths;
   const [name, type] = imageName.split('.');

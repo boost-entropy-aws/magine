@@ -68,7 +68,10 @@ exports.default = async (rules, imageVehicle, storageKey, uuid, imageName, tempO
     const magickProcess = childProcess.spawnSync(appPath, argsArray); // eslint-disable-line no-unused-vars
     try {
       console.log('resizedPath', resizedPath)
-      resizedImage = await readFile(resizedPath).then(data => data);
+      resizedImage = await readFile(resizedPath).then((data) => {
+        console.log('resizedPath::data', data)
+        return data
+      });
     } catch (e) {
       err = e;
     }
