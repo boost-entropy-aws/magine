@@ -29,6 +29,7 @@ exports.default = async (params) => {
         const resizedReformatted = `${originalResized.split('.')[0]}.${conversionFormat.extension}`;
         const reformatProcess = childProcess.spawnSync(appPath, [originalResized, resizedReformatted]);
         try {
+          console.log('resizedReformatted', resizedReformatted)
           reformatedImage = await readFile(resizedReformatted).then(data => data);
         } catch (e) {
           error = e;
