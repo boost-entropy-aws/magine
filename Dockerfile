@@ -36,7 +36,7 @@ RUN wget https://www.imagemagick.org/download/delegates/openjpeg-2.3.0.tar.gz
 RUN wget https://download.imagemagick.org/ImageMagick/download/releases/ImageMagick-7.0.9-27.tar.xz
 
 RUN tar -xzvf openjpeg-*.tar.gz
-RUN tar -xzvf ImageMagick.tar.gz
+RUN tar -xzvf ImageMagick-*.tar.gz
 
 RUN cd openjpeg-* \
     && mkdir build \
