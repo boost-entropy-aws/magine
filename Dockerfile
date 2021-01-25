@@ -33,7 +33,7 @@ RUN yum clean all
 
 # Download image dependencies
 RUN wget https://www.imagemagick.org/download/delegates/openjpeg-2.3.0.tar.gz
-RUN wget https://www.imagemagick.org/download/ImageMagick.tar.gz
+RUN wget https://download.imagemagick.org/ImageMagick/download/ImageMagick-6.9.11-59.tar.gz
 
 RUN tar -xzvf openjpeg-*.tar.gz
 RUN tar -xzvf ImageMagick.tar.gz
