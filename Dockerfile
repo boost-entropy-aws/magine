@@ -4,6 +4,8 @@ MAINTAINER Jonathan Kempf <kempfjj@protonmail.com>
 
 WORKDIR /
 
+
+
 # Add a local file for testing magick commands in the container
 COPY abstract-art-background-1124092.jpg /usr/local/abstract-art-background-1124092.jpg
 
