@@ -66,7 +66,7 @@ exports.default = async (rules, imageVehicle, storageKey, uuid, imageName, tempO
     }
     console.log('argsArray ', argsArray);
     try {
-      const magickProcess = childProcess.spawnSync(appPath, argsArray, { shell: true }); // eslint-disable-line no-unused-vars    
+      const magickProcess = childProcess.spawn(appPath, argsArray); // eslint-disable-line no-unused-vars    
       magickProcess.stdout.on('data', (data) => {
         console.log(`stdout: ${data}`);
       });
