@@ -1,4 +1,4 @@
-FROM amazonlinux:latest
+FROM amazonlinux:2018.03
 
 MAINTAINER Jonathan Kempf <kempfjj@protonmail.com>
 
