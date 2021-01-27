@@ -60,7 +60,7 @@ RUN /usr/local/bin/magick -list format | grep -i "^[[:space:]]*webp"
 
 # Remove tar files
 RUN rm openjpeg-*.tar.gz
-RUN rm ImageMagick.tar.gz
+RUN rm ImageMagick*.tar.gz
 
 # pip installation
 RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
