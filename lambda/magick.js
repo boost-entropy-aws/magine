@@ -40,6 +40,13 @@ exports.default = async (event, gmOptions, env) => {
   fs.access(tempOriginal, fs.constants.F_OK, (err) => {
     console.log(`${tempOriginal} ${err ? 'does not exist' : 'exists'}`);
   });
+  fs.stat(tempOriginal, (err, stats) => {
+    if (err) {
+      console.log('tempOriginal stat err ', err);
+    } else {
+      console.log('tempOriginal stat ', stats);
+    }
+  });
   // get data options for images based on path
   const rules = imageOptions.paths(processingRule);
   const { appPath = 'magick' } = gmOptions;
