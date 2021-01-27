@@ -26,8 +26,20 @@ exports.default = async (event, gmOptions, env) => {
   // this creates the /tmp directory
   const newDir = await imageVehicle.dir('tmp');
   // write a temporary file
-  const tempOriginal = await writeFile(path.resolve(newDir, imageName), file).then(data => path.resolve(newDir, imageName));
-  fs.stat(tempOriginal, (err, stats) => !err ? console.log(stats) : console.log(err));
+  let tempOriginal;
+  try {
+    tempOriginal = await writeFile(path.resolve(newDir, imageName), file).then((data) => {
+      console.log('tempOriginal data ', data);
+      return path.resolve(newDir, imageName);
+    });
+  } catch (e) {
+    console.log('tempOriginal e', e);
+  }
+  
+  console.log('tempOriginal ', tempOriginal);
+  fs.access(tempOriginal, fs.constants.F_OK, (err) => {
+    console.log(`${tempOriginal} ${err ? 'does not exist' : 'exists'}`);
+  });
   // get data options for images based on path
   const rules = imageOptions.paths(processingRule);
   const { appPath = 'magick' } = gmOptions;

@@ -65,16 +65,23 @@ exports.default = async (rules, imageVehicle, storageKey, uuid, imageName, tempO
       argsArray = [tempOriginal, ...magickArgs, resizedPath];
     }
     console.log('argsArray ', argsArray);
-    const magickProcess = childProcess.spawnSync(appPath, argsArray); // eslint-disable-line no-unused-vars
+    try {
+      const magickProcess = childProcess.spawnSync(appPath, argsArray); // eslint-disable-line no-unused-vars    
+    } catch (e) {
+      console.log('magickProcess error ', e);
+      err = e;
+    }
     try {
       resizedImage = await readFile(resizedPath).then(data => data);
     } catch (e) {
+      console.log('resizedImage e ', e);
       err = e;
     }
     // this below will perform I/O in non local formats.
     try {
       returnedImage = await imageVehicle.put(resizedImage, storageKey, uuid, imageName, imageMod);
     } catch (e) {
+      console.log('returnedImage e ', e);
       err = e;
     }
     return resizedPath;
