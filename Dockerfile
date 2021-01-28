@@ -61,7 +61,7 @@ RUN rm openjpeg-*.tar.gz
 RUN rm ImageMagick-*.tar.gz
 
 # pip installation
-RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+RUN curl https://bootstrap.pypa.io/2.7/get-pip.py -o get-pip.py
 RUN python get-pip.py
 
 # Exodus installation
