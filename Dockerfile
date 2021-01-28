@@ -31,10 +31,10 @@ RUN yum clean all
 
 # Download image dependencies
 RUN wget https://www.imagemagick.org/download/delegates/openjpeg-2.3.0.tar.gz
-RUN wget https://www.imagemagick.org/download/ImageMagick.tar.gz
+RUN wget https://download.imagemagick.org/ImageMagick/download/releases/ImageMagick-7.0.10-35.tar.gz
 
 RUN tar -xzvf openjpeg-*.tar.gz
-RUN tar -xzvf ImageMagick.tar.gz
+RUN tar -xzvf ImageMagick-7.0.10-35.tar.gz
 
 RUN cd openjpeg-* \
     && mkdir build \
@@ -58,7 +58,7 @@ RUN /usr/local/bin/magick -list format | grep -i "^[[:space:]]*webp"
 
 # Remove tar files
 RUN rm openjpeg-*.tar.gz
-RUN rm ImageMagick.tar.gz
+RUN rm ImageMagick-*.tar.gz
 
 # pip installation
 RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
