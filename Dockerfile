@@ -70,5 +70,7 @@ RUN python get-pip.py
 RUN pip install --user exodus-bundler --no-warn-script-location
 ENV PATH="~/.local/bin/:${PATH}"
 
+
+
 # Create packages of imagemagick binary
 RUN exodus -t /usr/local/bin/magick -o /usr/local/bin/exodus-magick.tgz
