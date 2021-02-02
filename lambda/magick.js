@@ -45,12 +45,7 @@ exports.default = async (event, gmOptions, env) => {
   };
 
   const identify = childProcess.spawnSync(appPath, ['identify', tempOriginal], { encoding: 'utf-8' });
-  try {
-    const verbose = childProcess.spawnSync(appPath, ['identify','-verbose', tempOriginal], { encoding: 'utf-8' });
-    console.log('VERBOSE::', verbose);
-  } catch(e) {
-    console.log('VERBOSE ERRRROR', e)
-  }
+
   if (!identify.stderr) {
     // Example output:
     // /tmp/screen_shot_2021_02_01_at_09.png PNG 642x664 642x664+0+0 8-bit sRGB 666819B 0.000u 0:00.000
