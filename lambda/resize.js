@@ -12,6 +12,8 @@ exports.default = async (rules, imageVehicle, storageKey, uuid, imageName, tempO
   let returnedImage;
   const resizedImages = Object.entries(rules).map(async ([imageMod, imageDim]) => {
     const magickArgs = [
+      '-interlace',
+      'Plane',
       '-filter',
       'Triangle',
       '-define',
@@ -36,8 +38,6 @@ exports.default = async (rules, imageVehicle, storageKey, uuid, imageName, tempO
       'png:compression-strategy=1',
       '-define',
       'png:exclude-chunk=all',
-      '-interlace',
-      'plane',
       '-colorspace',
       'sRGB',
       '-strip'
