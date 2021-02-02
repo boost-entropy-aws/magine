@@ -37,7 +37,7 @@ exports.default = async (rules, imageVehicle, storageKey, uuid, imageName, tempO
       '-define',
       'png:exclude-chunk=all',
       '-interlace',
-      'plane',
+      'JPEG',
       '-colorspace',
       'sRGB',
       '-strip'
