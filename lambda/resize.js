@@ -66,10 +66,17 @@ exports.default = async (rules, imageVehicle, storageKey, uuid, imageName, tempO
     }
     console.log('argsArray ', argsArray);
     const magickProcess = childProcess.spawnSync(appPath, argsArray); // eslint-disable-line no-unused-vars
+
     try {
-      resizedImage = await readFile(resizedPath).then(data => data);
       const verbose = childProcess.spawnSync(appPath, ['identify','-verbose', resizedPath], { encoding: 'utf-8' });
       console.log('VERBOSE RESIZE PATH', verbose);
+    } catch (e) {
+      console.log('verbose error', e)
+    }
+
+
+    try {
+      resizedImage = await readFile(resizedPath).then(data => data);
     } catch (e) {
       err = e;
     }
