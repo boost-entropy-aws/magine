@@ -13,34 +13,7 @@ exports.default = async (rules, imageVehicle, storageKey, uuid, imageName, tempO
   const resizedImages = Object.entries(rules).map(async ([imageMod, imageDim]) => {
     const magickArgs = [
       '-interlace',
-      'Plane',
-      '-filter',
-      'Triangle',
-      '-define',
-      'filter:support=2',
-      '-thumbnail',
-      `${imageDim.width}`,
-      '-unsharp',
-      '0.25x0.25+8+0.065',
-      '-dither',
-      'None',
-      '-posterize',
-      '136',
-      '-quality',
-      '82',
-      '-define',
-      'jpeg:fancy-upsampling=off',
-      '-define',
-      'png:compression-filter=5',
-      '-define',
-      'png:compression-level=9',
-      '-define',
-      'png:compression-strategy=1',
-      '-define',
-      'png:exclude-chunk=all',
-      '-colorspace',
-      'sRGB',
-      '-strip'
+      'plane'
     ];
     const magickGifArgs = [
       '+dither',
