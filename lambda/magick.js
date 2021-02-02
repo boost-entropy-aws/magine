@@ -1,7 +1,7 @@
 const path = require('path');
 const fs = require('fs');
 const util = require('util');
-const sizeOf = require('image-size');
+const childProcess = require('child_process');
 
 const writeFile = util.promisify(fs.writeFile);
 const resize = require('./resize').default;
@@ -36,18 +36,28 @@ exports.default = async (event, gmOptions, env) => {
   const resizeImages = await resize(rules, imageVehicle, storageKey, uuid, imageName, tempOriginal, appPath);
   const { error: newErr, converted } = await format(resizeImages);
   const types = await converted;
-  const dimensions = sizeOf(tempOriginal);
+
   const response = {
     error: newErr,
     types,
     imageName,
-    uri: `${storageKey}/${uuid}/`,
-    dimensions: {
-      originalHeight: dimensions.height,
-      originalWidth: dimensions.width,
-      aspectRatio: parseFloat((dimensions.width / dimensions.height).toFixed(2))
-    }
+    uri: `${storageKey}/${uuid}/`
   };
+
+  const identify = childProcess.spawnSync(appPath, ['identify', tempOriginal], { encoding: 'utf-8' });
+  if (!identify.stderr) {
+    // Example output:
+    // /tmp/screen_shot_2021_02_01_at_09.png PNG 642x664 642x664+0+0 8-bit sRGB 666819B 0.000u 0:00.000
+    const identifyStdout = identify.stdout;
+    const identifyData = identifyStdout.split(' ');
+    const [imageWidth, imageHeight] = identifyData[2].split('x');
+    response.dimensions = {
+      originalHeight: parseInt(imageHeight, 10),
+      originalWidth: parseInt(imageWidth, 10),
+      aspectRatio: parseFloat((imageWidth / imageHeight).toFixed(2))
+    };
+  }
+
   // response should look like this:
   /*
     {
