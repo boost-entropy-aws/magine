@@ -47,7 +47,7 @@ exports.default = async (event, gmOptions, env) => {
   const identify = childProcess.spawnSync(appPath, ['identify', tempOriginal], { encoding: 'utf-8' });
   try {
     const verbose = childProcess.spawnSync(appPath, ['identify','-verbose', tempOriginal], { encoding: 'utf-8' });
-    console.log('IDENTIFY:::' identify)
+    console.log('IDENTIFY:::', identify)
     console.log('VERBOSE::', verbose);
   } catch(e) {
     console.log('VERBOSE ERRRROR', e)
