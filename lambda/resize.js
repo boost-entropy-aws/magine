@@ -44,15 +44,15 @@ exports.default = async (rules, imageVehicle, storageKey, uuid, imageName, tempO
       '-strip'
     ];
     const magickGifArgs = [
-      '-resize',
-      `${width}`,
       '+dither',
       '-layers',
       'optimize',
       '-colors',
       '32',
       '-fuzz',
-      '10%'
+      '10%',
+      '-resize',
+      `${width}`
     ];
     try {
       tmpResizedDescriptor = await imageVehicle.dir('tmp', imageMod);
