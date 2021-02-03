@@ -15,10 +15,6 @@ exports.default = async (rules, imageVehicle, storageKey, uuid, imageName, tempO
     const magickArgs = [
       '-filter',
       'Triangle',
-      '-define',
-      'filter:support=2',
-      '-thumbnail',
-      `${width}`,
       '-unsharp',
       '0.25x0.25+8+0.065',
       '-dither',
@@ -37,11 +33,15 @@ exports.default = async (rules, imageVehicle, storageKey, uuid, imageName, tempO
       'png:compression-strategy=1',
       '-define',
       'png:exclude-chunk=all',
+      '-interlace',
+      'plane',
       '-colorspace',
       'sRGB',
       '-strip',
-      '-interlace',
-      'plane'
+      '-define',
+      'filter:support=2',
+      '-thumbnail',
+      `${width}`
     ];
     const magickGifArgs = [
       '+dither',
@@ -72,7 +72,6 @@ exports.default = async (rules, imageVehicle, storageKey, uuid, imageName, tempO
     console.log('argsArray ', argsArray);
     const magickProcess = childProcess.spawnSync(appPath, argsArray); // eslint-disable-line no-unused-vars
     try {
-      const interlace = childProcess.spawnSync(appPath, [tempOriginal, '-interlace', 'plane', resizedPath]);
       const verbose = childProcess.spawnSync(appPath, ['identify','-verbose', resizedPath], { encoding: 'utf-8' });
       console.log('VERBOSE RESIZE PATH', verbose);
     } catch (e) {
