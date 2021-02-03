@@ -25,6 +25,7 @@ exports.route = async (event, context, callback) => {
   }
   const { response, message } = await magick.default(event, gmOpts, environment);
   const { error, ...imageWork } = response;
+  console.log('IMAGEWORK:', imageWork)
   await publish.pub(message, imageWork);
   return callback(error, imageWork);
   // TO DO: use the return value of imageWork to decide how to use callback(...params).

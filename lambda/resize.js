@@ -81,7 +81,6 @@ exports.default = async (rules, imageVehicle, storageKey, uuid, imageName, tempO
 
     try {
       resizedImage = await readFile(resizedPath).then(data => data);
-      console.log('RESIZEDIMAGE::', resizedImage);
     } catch (e) {
       err = e;
     }
