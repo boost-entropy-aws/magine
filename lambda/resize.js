@@ -15,6 +15,10 @@ exports.default = async (rules, imageVehicle, storageKey, uuid, imageName, tempO
     const magickArgs = [
       '-filter',
       'Triangle',
+      '-define',
+      'filter:support=2',
+      '-thumbnail',
+      `${width}`,
       '-unsharp',
       '0.25x0.25+8+0.065',
       '-dither',
@@ -37,11 +41,7 @@ exports.default = async (rules, imageVehicle, storageKey, uuid, imageName, tempO
       'plane',
       '-colorspace',
       'sRGB',
-      '-strip',
-      '-define',
-      'filter:support=2',
-      '-thumbnail',
-      `${width}`
+      '-strip'
     ];
     const magickGifArgs = [
       '+dither',
@@ -81,6 +81,7 @@ exports.default = async (rules, imageVehicle, storageKey, uuid, imageName, tempO
 
     try {
       resizedImage = await readFile(resizedPath).then(data => data);
+      console.log('RESIZEDIMAGE::', resizedImage);
     } catch (e) {
       err = e;
     }
