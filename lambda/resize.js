@@ -5,19 +5,20 @@ const util = require('util');
 
 const readFile = util.promisify(fs.readFile);
 
-exports.default = async (rules, imageVehicle, storageKey, uuid, imageName, tempOriginal, appPath) => {
+exports.default = async (rules, imageVehicle, storageKey, uuid, imageName, tempOriginal, appPath, originalWidth) => {
   let err = null;
   let tmpResizedDescriptor;
   let resizedImage;
   let returnedImage;
   const resizedImages = Object.entries(rules).map(async ([imageMod, imageDim]) => {
+    const width = (originalWidth && originalWidth < imageDim.width) ? originalWidth : imageDim.width;
     const magickArgs = [
       '-filter',
       'Triangle',
       '-define',
       'filter:support=2',
       '-thumbnail',
-      `${imageDim.width}`,
+      `${width}`,
       '-unsharp',
       '0.25x0.25+8+0.065',
       '-dither',
@@ -44,7 +45,7 @@ exports.default = async (rules, imageVehicle, storageKey, uuid, imageName, tempO
     ];
     const magickGifArgs = [
       '-resize',
-      `${imageDim.width}`,
+      `${width}`,
       '+dither',
       '-layers',
       'optimize',
