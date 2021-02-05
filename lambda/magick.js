@@ -9,6 +9,7 @@ const format = require('./format').default;
 const imageOptions = require('./options/options');
 
 exports.default = async (event, gmOptions, env) => {
+  console.log('event ', event);
   // const gm = require('gm').subClass(gmOptions);
   const imageVehicle = require(path.resolve(__dirname, 'vehicles', env));
   // this needs a catch block
@@ -23,6 +24,15 @@ exports.default = async (event, gmOptions, env) => {
     file,
     message
   } = await imageVehicle.get(event);
+  console.log(error);
+  console.log(fullLocation);
+  console.log(storageKey);
+  console.log(s3Trigger);
+  console.log(processingRule);
+  console.log(uuid);
+  console.log(imageName);
+  console.log(file);
+  console.log(message);
   // this creates the /tmp directory
   const newDir = await imageVehicle.dir('tmp');
   // write a temporary file
@@ -49,14 +59,26 @@ exports.default = async (event, gmOptions, env) => {
   // resize each image =>
   console.log('rules ', rules);
   const resizeImages = await resize(rules, imageVehicle, storageKey, uuid, imageName, tempOriginal, appPath, originalWidth);
+  console.log('resizedImages ', resizeImages);
   const { error: newErr, converted } = await format(resizeImages);
-  const types = await converted;
+  console.log('error: ', newErr);
+  console.log('typeof converted ', typeof converted);
+  let types;
+  let uri;
+  if (typeof converted !== 'undefined') {
+    console.log('converted is NOT UNDEFINED');
+    types = await converted;
+    uri = `${storageKey}/${uuid}/`;
+  } else {
+    types = [imageName.split('.')[1]];
+    uri = `${storageKey}/${s3Trigger}/${processingRule}/${uuid}/`;
+  }
 
   const response = {
     error: newErr,
     types,
     imageName,
-    uri: `${storageKey}/${uuid}/`
+    uri
   };
 
   if (originalWidth && originalHeight) {
