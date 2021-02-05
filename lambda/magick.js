@@ -24,15 +24,6 @@ exports.default = async (event, gmOptions, env) => {
     file,
     message
   } = await imageVehicle.get(event);
-  console.log(error);
-  console.log(fullLocation);
-  console.log(storageKey);
-  console.log(s3Trigger);
-  console.log(processingRule);
-  console.log(uuid);
-  console.log(imageName);
-  console.log(file);
-  console.log(message);
   // this creates the /tmp directory
   const newDir = await imageVehicle.dir('tmp');
   // write a temporary file
@@ -57,16 +48,11 @@ exports.default = async (event, gmOptions, env) => {
   }
 
   // resize each image =>
-  console.log('rules ', rules);
   const resizeImages = await resize(rules, imageVehicle, storageKey, uuid, imageName, tempOriginal, appPath, originalWidth);
-  console.log('resizedImages ', resizeImages);
   const { error: newErr, converted } = await format(resizeImages);
-  console.log('error: ', newErr);
-  console.log('typeof converted ', typeof converted);
   let types;
   let uri;
   if (typeof converted !== 'undefined') {
-    console.log('converted is NOT UNDEFINED');
     types = await converted;
     uri = `${storageKey}/${uuid}/`;
   } else {
@@ -87,6 +73,10 @@ exports.default = async (event, gmOptions, env) => {
       originalWidth,
       aspectRatio: parseFloat((originalWidth / originalHeight).toFixed(2))
     };
+  }
+
+  if (typeof converted === 'undefined') {
+    response.raw = true;
   }
 
   // response should look like this:
