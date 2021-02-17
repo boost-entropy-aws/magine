@@ -38,7 +38,7 @@ exports.default = async (event, gmOptions, env) => {
 
   const identify = childProcess.spawnSync(appPath, ['identify', tempOriginal], { encoding: 'utf-8' });
   console.log('identify::', identify)
-  if (!identify.stderr) {
+  if (identify.stdout) {
     // Example output:
     // /tmp/screen_shot_2021_02_01_at_09.png PNG 642x664 642x664+0+0 8-bit sRGB 666819B 0.000u 0:00.000
     const identifyStdout = identify.stdout;
