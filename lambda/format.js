@@ -42,7 +42,10 @@ exports.default = async (params) => {
         return returnedImage.Location;
       }
       return originalResized;
-    })).then(values => values).catch(err => err);
+    })).then(values => values).catch(err => {
+      console.log('inside format err::', err)
+      return err
+    });
   });
 
   const converted = conversionsPromises.reduce(async (extensions, link) => {
