@@ -41,6 +41,7 @@ exports.default = async (event, gmOptions, env) => {
     // Example output:
     // /tmp/screen_shot_2021_02_01_at_09.png PNG 642x664 642x664+0+0 8-bit sRGB 666819B 0.000u 0:00.000
     const identifyStdout = identify.stdout;
+    console.log('identifyStdOut::', identifyStdout);
     const identifyData = identifyStdout.split(' ');
     const [imageWidth, imageHeight] = identifyData[2].split('x');
     originalWidth = parseInt(imageWidth, 10);
