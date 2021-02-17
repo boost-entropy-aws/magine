@@ -48,9 +48,10 @@ exports.default = async (params) => {
   const converted = conversionsPromises.reduce(async (extensions, link) => {
     const l = await link;
     console.log('inside converted::l', l);
-    console.log('inside converted::extensions', extensions)
     if (Array.isArray(l) && l.length > 0) {
       const awaitedExt = Array.isArray(extensions) ? extensions : await extensions;
+      console.log('inside converted::extensions', awaitedExt)
+
       return [...awaitedExt, l[0].split('.').pop()];
     }
     return extensions;
