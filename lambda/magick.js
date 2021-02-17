@@ -50,7 +50,6 @@ exports.default = async (event, gmOptions, env) => {
   // resize each image =>
   const resizeImages = await resize(rules, imageVehicle, storageKey, uuid, imageName, tempOriginal, appPath, originalWidth);
   const { error: newErr, converted } = await format(resizeImages);
-  console.log('inside magick converted::', converted)
   let types;
   let uri;
   if (typeof converted !== 'undefined') {
@@ -60,7 +59,7 @@ exports.default = async (event, gmOptions, env) => {
     types = [imageName.split('.')[1]];
     uri = `${storageKey}/${s3Trigger}/${processingRule}/${uuid}/`;
   }
-
+  console.log('types::', types)
   const response = {
     error: newErr,
     types,
