@@ -61,6 +61,7 @@ exports.default = async (rules, imageVehicle, storageKey, uuid, imageName, tempO
       err = e;
     }
     // this sets the location and descriptor of the resized file
+    console.log('tmpResizedDescriptor::', tmpResizedDescriptor, 'imageName::', imageName);
     const resizedPath = path.resolve(tmpResizedDescriptor, imageName);
     // TODO: check that this works, as I am passing in the temp paths.
     let argsArray;
@@ -75,6 +76,7 @@ exports.default = async (rules, imageVehicle, storageKey, uuid, imageName, tempO
       resizedImage = await readFile(resizedPath).then(data => data);
     } catch (e) {
       console.log('inside resizedImage try, e::', e);
+      // no such file
       err = e;
     }
     // this below will perform I/O in non local formats.

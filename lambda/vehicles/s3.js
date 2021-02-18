@@ -92,8 +92,12 @@ exports.dir = async (...descriptor) => {
   console.log('imageVehicle.dir: ', ...descriptor);
   const tmpPath = path.resolve('/', ...descriptor);
   if (tmpPath !== '/tmp') {
-    const newDir = await mkdir(tmpPath, { recursive: true }).then(data => tmpPath).catch(err => err);
+    const newDir = await mkdir(tmpPath, { recursive: true }).then(data => tmpPath).catch(err => {
+      console.log('newDir err::', err);
+      return err
+    });
     const returnedDir = Object.prototype.hasOwnProperty.call(newDir, 'code') ? tmpPath : newDir;
+    console.log('returneDir::', returnedDir);
     return returnedDir;
   }
   return tmpPath;
