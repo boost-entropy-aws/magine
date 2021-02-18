@@ -41,7 +41,9 @@ exports.default = async (rules, imageVehicle, storageKey, uuid, imageName, tempO
       'plane',
       '-colorspace',
       'sRGB',
-      '-strip'
+      '-strip',
+      '-debug',
+      'all'
     ];
     const magickGifArgs = [
       '-layers',
