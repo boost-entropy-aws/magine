@@ -50,6 +50,7 @@ exports.default = async (event, gmOptions, env) => {
   // resize each image =>
   const resizeImages = await resize(rules, imageVehicle, storageKey, uuid, imageName, tempOriginal, appPath, originalWidth);
   const { error: newErr, converted } = await format(resizeImages);
+  console.log('inside magick, converted::', converted, 'type of::', typeof converted);
   let types;
   let uri;
   if (typeof converted !== 'undefined') {

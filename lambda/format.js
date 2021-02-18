@@ -27,6 +27,7 @@ exports.default = async (params) => {
       let returnedImage;
       if (conversionFormat.extension !== extension) {
         const resizedReformatted = `${originalResized.split('.')[0]}.${conversionFormat.extension}`;
+        console.log('inside format, resizedReformatted::', resizedReformatted);
         const reformatProcess = childProcess.spawnSync(appPath, [originalResized, '-interlace', 'plane', resizedReformatted]);
         try {
           reformatedImage = await readFile(resizedReformatted).then(data => data);
@@ -42,10 +43,7 @@ exports.default = async (params) => {
         return returnedImage.Location;
       }
       return originalResized;
-    })).then(values => values).catch(err => {
-      console.log('inside format err::', err)
-      return err
-    });
+    })).then(values => values).catch(err => err);
   });
 
   const converted = conversionsPromises.reduce(async (extensions, link) => {
