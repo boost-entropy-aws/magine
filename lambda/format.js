@@ -7,6 +7,7 @@ const imageOptions = require('./options/options');
 
 exports.default = async (params) => {
   console.log('inside format params::', params);
+  // errors when body is undefined
   let { error } = params;
   const {
     appPath,
