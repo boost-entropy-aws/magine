@@ -61,7 +61,7 @@ exports.default = async (rules, imageVehicle, storageKey, uuid, imageName, tempO
       err = e;
     }
     // this sets the location and descriptor of the resized file
-    console.log('tmpResizedDescriptor::', tmpResizedDescriptor, 'imageName::', imageName);
+    console.log('appPath::', appPath);
     const resizedPath = path.resolve(tmpResizedDescriptor, imageName);
     // TODO: check that this works, as I am passing in the temp paths.
     let argsArray;
