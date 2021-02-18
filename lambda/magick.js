@@ -51,21 +51,32 @@ exports.default = async (event, gmOptions, env) => {
   const resizeImages = await resize(rules, imageVehicle, storageKey, uuid, imageName, tempOriginal, appPath, originalWidth);
   const { error: newErr, converted } = await format(resizeImages);
   console.log('inside magick, converted::', converted, 'type of::', typeof converted);
-  let types;
-  let uri;
-  if (typeof converted !== 'undefined') {
-    types = await converted;
-    uri = `${storageKey}/${uuid}/`;
-  } else {
-    types = [imageName.split('.')[1]];
-    uri = `${storageKey}/${s3Trigger}/${processingRule}/${uuid}/`;
-  }
+
+  const types = await converted;
+  console.log('inside magick, types::', types);
+
   const response = {
     error: newErr,
     types,
     imageName,
-    uri
+    uri: `${storageKey}/${uuid}/`
   };
+
+  // let types;
+  // let uri;
+  // if (typeof converted !== 'undefined') {
+  //   types = await converted;
+  //   uri = `${storageKey}/${uuid}/`;
+  // } else {
+  //   types = [imageName.split('.')[1]];
+  //   uri = `${storageKey}/${s3Trigger}/${processingRule}/${uuid}/`;
+  // }
+  // const response = {
+  //   error: newErr,
+  //   types,
+  //   imageName,
+  //   uri
+  // };
 
   if (originalWidth && originalHeight) {
     response.dimensions = {
@@ -75,9 +86,9 @@ exports.default = async (event, gmOptions, env) => {
     };
   }
 
-  if (typeof converted === 'undefined') {
-    response.raw = true;
-  }
+  // if (typeof converted === 'undefined') {
+  //   response.raw = true;
+  // }
 
   // response should look like this:
   /*
