@@ -6,6 +6,7 @@ const readFile = util.promisify(fs.readFile);
 const imageOptions = require('./options/options');
 
 exports.default = async (params) => {
+  console.log('inside format params::', params);
   let { error } = params;
   const {
     appPath,
@@ -18,8 +19,6 @@ exports.default = async (params) => {
   if (error) {
     return { error, data: '' };
   }
-
-  console.log('inside format params::', params);
 
   // images = [resizedImage path, ...]
   const [path, extension] = imageName.split('.');
