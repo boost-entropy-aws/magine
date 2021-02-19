@@ -75,6 +75,20 @@ exports.default = async (rules, imageVehicle, storageKey, uuid, imageName, tempO
     console.log('magickProcess::', magickProcess);
 
     try {
+      childProcess.exec(`${appPath} ${tempOriginal} -filter Triangle -define filter:support=2 -thumbnail ${width} -unsharp 0.25x0.25+8+0.065 -dither None -posterize 136 -quality 82 -define jpeg:fancy-upsampling=off -define png:compression-filter=5 -define png:compression-level=9 -define png:compression-strategy=1 -define png:exclude-chunk=all -interlace plane -colorspace sRGB -strip ${resizedPath}`, (error, stdout, stderr) => {
+        if (error) {
+          console.error(`exec error: ${error}`);
+          return;
+        }
+        console.log(`exec stdout: ${stdout}`);
+        console.error(`exc stderr: ${stderr}`);
+      })
+    } catch (error) {
+      console.log('exec error', error)
+    }
+
+
+    try {
       childProcess.exec(`${appPath} convert -list configure | grep -i "delegates"`, (error, stdout, stderr) => {
         if (error) {
           console.error(`exec error: ${error}`);
