@@ -44,8 +44,7 @@ RUN cd openjpeg-* \
     && cd build \
     && cmake -G"Unix Makefiles" .. \
     && make \
-    && make install \
-    && cp libopenjp2.pc /usr/share/pkgconfig/
+    && make install
 
 RUN cd libxml2-* \
     && ./configure \
