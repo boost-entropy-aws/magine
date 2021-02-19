@@ -74,9 +74,18 @@ exports.default = async (rules, imageVehicle, storageKey, uuid, imageName, tempO
 
     console.log('magickProcess::', magickProcess);
 
-    const delegates = childProcess.spawnSync(appPath, ['-list', 'configure|grep', '-i', 'delegate']);
-
-    console.log('delagtes::', delegates);
+    try {
+      magickProcess.exec('convert -list configure | grep -i "delegates"', (error, stdout, stderr) => {
+        if (error) {
+          console.error(`exec error: ${error}`);
+          return;
+        }
+        console.log(`exec stdout: ${stdout}`);
+        console.error(`exc stderr: ${stderr}`);
+      })
+    } catch (error) {
+      console.log('exec error', error)
+    }
 
 
     try {
