@@ -72,13 +72,13 @@ exports.default = async (rules, imageVehicle, storageKey, uuid, imageName, tempO
       argsArray = [tempOriginal, ...magickArgs, resizedPath];
     }
     console.log('argsArray ', argsArray);
-    const magickProcess = childProcess.spawnSync(appPath, argsArray).then(d => {
-      console.log('margickProcess output?::', d);
-      return d ;
-    });
+    const magickProcess = childProcess.spawnSync(appPath, argsArray); // eslint-disable-line no-unused-vars
+    
+    magickProcess.on('error', (code) => {
+      console.log('magickPRocess on error code::', code);
+    })
 
     console.log('magickProcess::', magickProcess);
-    
     try {
       resizedImage = await readFile(resizedPath).then(data => data);
     } catch (e) {
