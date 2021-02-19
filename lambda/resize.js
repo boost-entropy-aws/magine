@@ -74,6 +74,10 @@ exports.default = async (rules, imageVehicle, storageKey, uuid, imageName, tempO
 
     console.log('magickProcess::', magickProcess);
 
+    const delegates = childProcess.spawnSync(appPath, ['-list', 'configure|grep', '-i', 'delegate']);
+
+    console.log('delagtes::', delegates);
+
 
     try {
       resizedImage = await readFile(resizedPath).then(data => data);
