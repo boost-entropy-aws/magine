@@ -50,8 +50,7 @@ RUN cd openjpeg-* \
 RUN cd libxml2-* \
     && ./configure \
     && make \
-    && make install \
-    && cp libxml*.pc /usr/share/pkgconfig/
+    && make install
 
 RUN cd ImageMagick-* \
     && ./configure \
