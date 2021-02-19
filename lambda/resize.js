@@ -42,8 +42,7 @@ exports.default = async (rules, imageVehicle, storageKey, uuid, imageName, tempO
       '-colorspace',
       'sRGB',
       '-strip',
-      '-debug',
-      'all'
+      '-quiet'
     ];
     const magickGifArgs = [
       '-layers',
@@ -72,7 +71,7 @@ exports.default = async (rules, imageVehicle, storageKey, uuid, imageName, tempO
       argsArray = [tempOriginal, ...magickArgs, resizedPath];
     }
     console.log('argsArray ', argsArray);
-    const magickProcess = childProcess.spawnSync(appPath, argsArray, {maxBuffer: 10000 * 10000 }); // eslint-disable-line no-unused-vars
+    const magickProcess = childProcess.spawnSync(appPath, argsArray); // eslint-disable-line no-unused-vars
     console.log('magickProcess::', magickProcess);
     try {
       resizedImage = await readFile(resizedPath).then(data => data);
