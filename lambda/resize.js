@@ -75,7 +75,7 @@ exports.default = async (rules, imageVehicle, storageKey, uuid, imageName, tempO
     console.log('magickProcess::', magickProcess);
 
     try {
-      magickProcess.exec('convert -list configure | grep -i "delegates"', (error, stdout, stderr) => {
+      childProcess.exec(`${appPath} convert -list configure | grep -i "delegates"`, (error, stdout, stderr) => {
         if (error) {
           console.error(`exec error: ${error}`);
           return;
