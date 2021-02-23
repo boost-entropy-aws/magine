@@ -27,7 +27,7 @@ exports.default = async (params) => {
       let returnedImage;
       if (conversionFormat.extension !== extension) {
         const resizedReformatted = `${originalResized.split('.')[0]}.${conversionFormat.extension}`;
-        const reformatProcess = childProcess.spawnSync(appPath, [originalResized, resizedReformatted]);
+        const reformatProcess = childProcess.spawnSync(appPath, [originalResized, '-interlace', 'plane', resizedReformatted]);
         try {
           reformatedImage = await readFile(resizedReformatted).then(data => data);
         } catch (e) {
